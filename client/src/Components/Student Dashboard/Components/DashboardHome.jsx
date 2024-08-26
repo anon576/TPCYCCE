@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Campus from "./Campus";
 import Skills from "./PYQ/Skills";
 import Academics from "./Profile/Academics";
+import Profile from "./Profile/Profile";
 
 
 const DashboardHome = () => {
@@ -21,6 +22,7 @@ const DashboardHome = () => {
 	};
 
 	return (
+		<>
 		<div className="flex flex-col h-full">
 			<div className="grid grid-cols-3 gap-4 mb-4">
 				<button
@@ -50,6 +52,8 @@ const DashboardHome = () => {
 			</div>
 			<div className="flex-grow">{renderComponent()}</div>
 		</div>
+		<Profile/>
+		</>
 	);
 };
 

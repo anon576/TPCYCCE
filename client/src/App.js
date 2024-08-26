@@ -1,6 +1,11 @@
 import "./App.css";
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+	Navigate,
+} from "react-router-dom";
 import Home from "./Components/Home/home";
 import Coordinator from "./Components/Coordinator/coordinator";
 import ViewCoordinator from "./Components/Coordinator/veiw_coordinator";
@@ -44,9 +49,10 @@ import Footer from "./Components/Foot/Footer";
 import Layout from "./Components/Student Dashboard/Components/Layout";
 import DashboardHome from "./Components/Student Dashboard/Components/DashboardHome";
 import NewPasswordForm from "./Components/LoginForms/Student/NewPassword";
-import StudentPrivateRoute from '../src/Components/Student Dashboard/StudentPrivateRouter'
+import StudentPrivateRoute from "../src/Components/Student Dashboard/StudentPrivateRouter";
 import Profile from "./Components/Student Dashboard/Components/Profile/Profile";
 import Forgetpassword from "./Components/LoginForms/Student/ForgetPassword";
+import StudentDashboard from "./Components/Student Dashboard/Dashboard";
 
 function App() {
 	return (
@@ -233,11 +239,18 @@ function App() {
 							</>
 						}
 					/>
-					<Route path="/student-dashboard" element={<StudentPrivateRoute component={Layout} />}>
+					<Route
+						path="/student-dashboard"
+						element={<StudentPrivateRoute component={Layout} />}
+					>
 						<Route index element={<Navigate to="home" replace />} />
 						<Route path="home" element={<DashboardHome />} />
-
 					</Route>
+
+					<Route
+						path="/student-dashboard-dev"
+						element={<StudentDashboard />}
+					></Route>
 
 					<Route
 						path="/profile"
