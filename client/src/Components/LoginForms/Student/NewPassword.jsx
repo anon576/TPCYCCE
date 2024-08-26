@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './LoginForm.css'; 
+import '../LoginForm.css'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BACKEND_URL } from '../../constant';
+import { BACKEND_URL } from '../../../constant';
 
 const NewPasswordForm = () => {
     const [password, setPassword] = useState('');

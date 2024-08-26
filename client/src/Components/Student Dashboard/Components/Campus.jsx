@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import Loader from "../../../loader/loader";
-import Coding from "./Coding";
-import Aptitude from "./Aptitude";
-import Questions from "./Questions";
+import Coding from "./PYQ/Coding";
+import Aptitude from "./PYQ/Aptitude";
+import Questions from "./PYQ/Questions";
 import { BACKEND_URL } from '../../../constant';
 
 const Campus = () => {

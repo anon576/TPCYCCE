@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Loader from "../../../loader/loader";
+import Loader from "../../../../loader/loader";
 
 const Academics = () => {
 	const [details, setDetails] = useState(null);

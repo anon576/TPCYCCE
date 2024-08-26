@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BACKEND_URL } from '../../constant';
-import './LoginForm.css'; 
+import { BACKEND_URL } from '../../../constant';
+import '../LoginForm.css'; 
 
 const StudentLogin = () => {
     const [username, setUsername] = useState('');
@@ -89,7 +89,7 @@ const StudentLogin = () => {
                         </div>
                         <button type="submit" className="login-button">Login</button>
                         <div className='links'>
-                            <Link className='link' to="/forgotpassword">Forgot Password </Link><br />
+                            <Link className='link' to="/forget_password">Forgot Password </Link><br />
                         </div>
                     </form>
                 </div>

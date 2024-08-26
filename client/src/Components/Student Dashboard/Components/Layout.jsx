@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import UserInfo from "./UserInfo";
+import UserInfo from "./Profile/UserInfo";
 
 const Layout = () => {
 	return (
@@ -30,7 +30,7 @@ const Layout = () => {
 								</li>
 								<li className="mb-2">
 									<NavLink
-										to="/student-dashboard/profile"
+										to="/profile"
 										className={({ isActive }) =>
 											isActive
 												? "text-blue-800 font-bold"

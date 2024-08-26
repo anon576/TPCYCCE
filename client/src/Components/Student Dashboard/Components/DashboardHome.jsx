@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Campus from "./Campus";
-import Skills from "./Skills";
-import Academics from "./Academics";
+import Skills from "./PYQ/Skills";
+import Academics from "./Profile/Academics";
 
 
 const DashboardHome = () => {

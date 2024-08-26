@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Loader from "../../../loader/loader";
+import Loader from "../../../../loader/loader";
 import axios from "axios";
-import { BACKEND_URL } from "../../../constant";
+import { BACKEND_URL } from "../../../../constant";
 
 const Skills = () => {
   const [skill, setSkill] = useState("");

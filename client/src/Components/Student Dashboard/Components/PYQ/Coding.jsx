@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "../../../constant";
+import { BACKEND_URL } from "../../../../constant";
 
 const Coding = ({ campusId }) => {
   const [code, setCode] = useState([]);

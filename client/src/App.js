@@ -39,12 +39,14 @@ import Nav from "./Components/Nav/Nav";
 import TpoLogin from "./Components/LoginForms/TpoLogin";
 import TpcLogin from "./Components/LoginForms/TpcLogin";
 import DeanLogin from "./Components/LoginForms/DeanLogin";
-import StudentLogin from "./Components/LoginForms/StudentLogin";
+import StudentLogin from "./Components/LoginForms/Student/StudentLogin";
 import Footer from "./Components/Foot/Footer";
 import Layout from "./Components/Student Dashboard/Components/Layout";
 import DashboardHome from "./Components/Student Dashboard/Components/DashboardHome";
-import NewPasswordForm from "./Components/LoginForms/NewPassword";
+import NewPasswordForm from "./Components/LoginForms/Student/NewPassword";
 import StudentPrivateRoute from '../src/Components/Student Dashboard/StudentPrivateRouter'
+import Profile from "./Components/Student Dashboard/Components/Profile/Profile";
+import Forgetpassword from "./Components/LoginForms/Student/ForgetPassword";
 
 function App() {
 	return (
@@ -190,6 +192,17 @@ function App() {
 							</>
 						}
 					/>
+
+					<Route
+						path="/forget_password"
+						element={
+							<>
+								<Nav />
+								<Forgetpassword />
+								<Footer />
+							</>
+						}
+					/>
 					<Route
 						path="/tpo"
 						element={
@@ -223,8 +236,17 @@ function App() {
 					<Route path="/student-dashboard" element={<StudentPrivateRoute component={Layout} />}>
 						<Route index element={<Navigate to="home" replace />} />
 						<Route path="home" element={<DashboardHome />} />
-						
+
 					</Route>
+
+					<Route
+						path="/profile"
+						element={
+							<>
+								<Profile></Profile>
+							</>
+						}
+					/>
 				</Routes>
 			</Router>
 		</>
