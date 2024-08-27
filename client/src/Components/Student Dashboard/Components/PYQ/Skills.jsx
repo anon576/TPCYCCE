@@ -253,7 +253,8 @@ const SkillModal = ({ skill, isOpen, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+      <div className="fixed inset-0 bg-gray-600 opacity-50" onClick={onClose}></div>
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md z-50 relative">
         <h3 className="text-xl font-bold mb-4">Update Skill</h3>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="skill">
@@ -296,7 +297,6 @@ const SkillModal = ({ skill, isOpen, onClose, onSave }) => {
           </button>
         </div>
       </div>
-      <div className="fixed inset-0 bg-gray-600 opacity-50"></div>
     </div>
   );
 };

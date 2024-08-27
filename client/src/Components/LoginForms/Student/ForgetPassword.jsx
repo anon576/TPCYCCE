@@ -79,78 +79,90 @@ const Forgetpassword = () => {
     };
 
     return (
-        <div className='register'>
-            <form className='login-form otp-main-form' onSubmit={handleSubmit(onSubmit)}>
-                <h1>Forget Password</h1>
-                <div className="login-inputs">
-                    {stage === 1 && (
-                        <div>
-                            <input
-                                type="email"
-                                name='email'
-                                placeholder='Enter Registered Email'
-                                {...register("email", {
-                                    required: "Please Enter Registered Email"
-                                })}
-                            />
-                            <p>{errors?.email?.message}</p>
-                        </div>
-                    )}
-                    {stage === 2 && (
-                        <div>
-                            <input
-                                type="text"
-                                name='otp'
-                                placeholder='Enter OTP'
-                                {...register("otp", {
-                                    required: "Please Enter OTP"
-                                })}
-                            />
-                            <p>{errors?.otp?.message}</p>
-                        </div>
-                    )}
-                    {stage === 3 && (
-                        <>
+         <div className='h-screen mt-32 py-16 md:w-1/2 mx-auto justify-center items-center p-4'>
+            <div className='bg-white rounded-lg shadow-xl p-8'>
+                <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className='text-3xl font-bold text-center text-blue-800 mb-6'>Forget Password</h1>
+                    <div className="space-y-4">
+                        {stage === 1 && (
                             <div>
                                 <input
-                                    type="password"
-                                    name='password'
-                                    placeholder='Enter New Password'
-                                    {...register("password", {
-                                        required: "Please Enter New Password",
-                                        minLength: {
-                                            value: 6,
-                                            message: "Password must be at least 6 characters long"
-                                        }
+                                    type="email"
+                                    name='email'
+                                    placeholder='Enter Registered Email'
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
+                                    {...register("email", {
+                                        required: "Please Enter Registered Email"
                                     })}
                                 />
-                                <p>{errors?.password?.message}</p>
+                                {errors?.email && <p className='text-red-500 text-sm mt-1'>{errors.email.message}</p>}
                             </div>
-                            <div>
-                                <input
-                                    type="password"
-                                    name='confirmPassword'
-                                    placeholder='Confirm New Password'
-                                    {...register("confirmPassword", {
-                                        required: "Please Confirm Your Password",
-                                        validate: value => value === watch('password') || "Passwords do not match"
-                                    })}
-                                />
-                                <p>{errors?.confirmPassword?.message}</p>
-                            </div>
+                        )}
+                        {stage === 2 && (
                             <div>
                                 <input
                                     type="text"
-                                    name='mtoken'
-                                    placeholder='Enter FCM Token (Optional)'
-                                    {...register("mtoken")}
+                                    name='otp'
+                                    placeholder='Enter OTP'
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
+                                    {...register("otp", {
+                                        required: "Please Enter OTP"
+                                    })}
                                 />
+                                {errors?.otp && <p className='text-red-500 text-sm mt-1'>{errors.otp.message}</p>}
                             </div>
-                        </>
-                    )}
-                    <input type="submit" className='login-button' value={stage === 1 ? "Send OTP" : stage === 2 ? "Verify OTP" : "Reset Password"} />
-                </div>
-            </form>
+                        )}
+                        {stage === 3 && (
+                            <>
+                                <div>
+                                    <input
+                                        type="password"
+                                        name='password'
+                                        placeholder='Enter New Password'
+                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
+                                        {...register("password", {
+                                            required: "Please Enter New Password",
+                                            minLength: {
+                                                value: 6,
+                                                message: "Password must be at least 6 characters long"
+                                            }
+                                        })}
+                                    />
+                                    {errors?.password && <p className='text-red-500 text-sm mt-1'>{errors.password.message}</p>}
+                                </div>
+                                <div>
+                                    <input
+                                        type="password"
+                                        name='confirmPassword'
+                                        placeholder='Confirm New Password'
+                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
+                                        {...register("confirmPassword", {
+                                            required: "Please Confirm Your Password",
+                                            validate: value => value === watch('password') || "Passwords do not match"
+                                        })}
+                                    />
+                                    {errors?.confirmPassword && <p className='text-red-500 text-sm mt-1'>{errors.confirmPassword.message}</p>}
+                                </div>
+                                <div>
+                                    <input
+                                        type="text"
+                                        name='mtoken'
+                                        placeholder='Enter FCM Token (Optional)'
+                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
+                                        {...register("mtoken")}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        <button 
+                            type="submit" 
+                            className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50'
+                        >
+                            {stage === 1 ? "Send OTP" : stage === 2 ? "Verify OTP" : "Reset Password"}
+                        </button>
+                    </div>
+                </form>
+            </div>
             <ToastContainer />
         </div>
     );
