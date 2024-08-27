@@ -25,21 +25,40 @@ const Forgetpassword = () => {
 
     const sendOTP = async (data) => {
         try {
-            const response = await axios.post(`${BACKEND_URL}/auth/forget_password`, { email: data.email });
-
+            const response = await axios.post(`${BACKEND_URL}/auth/student_forget_password`, { email: data.email });
+    
             if (response.status === 200) {
+                // OTP was sent successfully
                 setOtp(response.data.otp); // Set OTP from response for demo purposes (usually not needed)
                 setStoredOtpHash(response.data.otp); // Store the hash of the OTP for verification
                 setEmail(data.email); // Store email for later use
                 setStage(2); // Move to the OTP verification stage
                 toast.success("OTP has been sent to your email.");
+            } else if (response.status === 400) {
+                // Bad request, email is missing
+                toast.error(response.data.message || "Email is required.");
+            } else if (response.status === 404) {
+                // User not found
+                toast.error(response.data.message || "User with this email does not exist.");
             } else {
-                toast.error(response.data.message);
+                // Handle other unexpected status codes
+                toast.error(response.data.message || "An unexpected error occurred.");
             }
         } catch (error) {
-            toast.error("An error occurred while sending OTP.");
+            // Handle network or server errors
+            if (error.response) {
+                // Server responded with a status other than 200 range
+                toast.error(error.response.data.message || "An error occurred while sending OTP.");
+            } else if (error.request) {
+                // Request was made but no response received
+                toast.error("No response received from server. Please try again.");
+            } else {
+                // Something else caused the error
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
+    
 
     const verifyOtp = async (data) => {
         const enteredOtp = data.otp;
@@ -59,7 +78,7 @@ const Forgetpassword = () => {
         }
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/auth/update_password`, {
+            const response = await axios.post(`${BACKEND_URL}/auth/student_update_password`, {
                 email: email,
                 password: data.password,
                 mtoken: data.mtoken || null, // Optionally send FCM token
@@ -142,15 +161,6 @@ const Forgetpassword = () => {
                                         })}
                                     />
                                     {errors?.confirmPassword && <p className='text-red-500 text-sm mt-1'>{errors.confirmPassword.message}</p>}
-                                </div>
-                                <div>
-                                    <input
-                                        type="text"
-                                        name='mtoken'
-                                        placeholder='Enter FCM Token (Optional)'
-                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500'
-                                        {...register("mtoken")}
-                                    />
                                 </div>
                             </>
                         )}

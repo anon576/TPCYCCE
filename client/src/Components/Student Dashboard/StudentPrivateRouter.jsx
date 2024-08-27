@@ -17,7 +17,7 @@ const StudentPrivateRoute = ({
     }
 
     // Redirect to student login page if not signed in
-    return <Navigate to="/studentlogin" />;
+    return <Navigate to="/student_login" />;
 };
 
 export default StudentPrivateRoute;
