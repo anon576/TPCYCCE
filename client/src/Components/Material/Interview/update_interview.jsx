@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
 import Loader from '../../../loader/loader';
-import SignIn from '../../SignIn/signin';
 import { BACKEND_URL } from '../../../constant';
 
 function UpdateInterviewQuestion() {
@@ -65,9 +62,7 @@ function UpdateInterviewQuestion() {
         setSuccessMessage('');
     };
 
-    if (!token) {
-        return <SignIn />;
-    }
+  
 
     if (loading) {
         return <Loader />;
@@ -75,7 +70,7 @@ function UpdateInterviewQuestion() {
 
     return (
         <>
-            <Navbar />
+         
             <div className="center vs1">
                 <form className="form" onSubmit={handleSubmit(onSubmit)}>
                     <p className="title">Update Interview Question</p>
@@ -104,7 +99,7 @@ function UpdateInterviewQuestion() {
                     </div>
                 )}
             </div>
-            <Footer />
+          
         </>
     );
 }

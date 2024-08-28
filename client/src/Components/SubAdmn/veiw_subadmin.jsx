@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../constant';
-import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../../loader/loader'; // Import the Loader component
-import SignIn from '../SignIn/signin';
+import Loader from '../../loader/loader'; 
 
 function ViewSubAdmin() {
     const token = localStorage.getItem("token")
@@ -39,7 +36,7 @@ function ViewSubAdmin() {
     }, []);
 
     const handleUpdateClick = (SubAdmin) => {
-        navigate(`/update_SubAdmin`, { state: { SubAdmin } },{
+        navigate(`/admin/update_SubAdmin`, { state: { SubAdmin } },{
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json',
@@ -69,10 +66,8 @@ function ViewSubAdmin() {
         return <div>Error: {error}</div>;
     }
 
-    if(token){
         return (
             <>
-                <Navbar />
                 <div className="tl" id="vc">
                     <table className="ctble">
                         <thead>
@@ -101,12 +96,9 @@ function ViewSubAdmin() {
                         </tbody>
                     </table>
                 </div>
-                <Footer />
             </>
         );
-    }else{
-        return <SignIn></SignIn>
-    }
+    
    
 }
 

@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "./student.css"
 import { BACKEND_URL, BRANCHS } from '../../constant.js'
-import Navbar from '../Navbar/navbar.jsx';
-import Footer from '../Footer/footer.jsx';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Loader from '../../loader/loader'; 
-import SignIn from '../SignIn/signin.jsx';
 
 function ViewStudent() {
   const token = localStorage.getItem("token")
@@ -41,7 +38,7 @@ function ViewStudent() {
   };
 
   const handleUpdateClick = (student) => {
-    navigate(`/update_student`, { state: { student } });
+    navigate(`/admin/update_student`, { state: { student } });
   };
 
   const handleDeleteClick = async (id) => {
@@ -58,10 +55,10 @@ function ViewStudent() {
     }
   };
 
-  if(token){
+
     return (
       <>
-        <Navbar />
+     
         <div className="vs1">
           <form className="form" onSubmit={e => { e.preventDefault(); fetchStudents(); }}>
             <p className="title">View Students</p>
@@ -146,12 +143,9 @@ function ViewStudent() {
             )
           )}
         </div>
-        <Footer />
       </>
     );
-  }else{
-         return <SignIn></SignIn>
-     }
+ 
 
   
 }

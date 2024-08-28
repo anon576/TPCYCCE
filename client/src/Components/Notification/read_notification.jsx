@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
 import { BACKEND_URL } from '../../constant';
-
-import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
+import {  useNavigate } from "react-router-dom";
 import Loader from '../../loader/loader'; 
-import SignIn from '../SignIn/signin';
-
 function ViewNotification() {
     const token = localStorage.getItem("token");
     const [notifications, setNotifications] = useState([]);
@@ -40,7 +35,7 @@ function ViewNotification() {
     }, []);
 
     const navigateToUpdateNotification = (notification) => {
-        navigate('/update_notification', { state: { notification } });
+        navigate('/admin/update_notification', { state: { notification } });
     };
 
     if (loading) {
@@ -51,10 +46,10 @@ function ViewNotification() {
         return <div>Error: {error}</div>;
     }
 
-    if (token) {
+    
         return (
             <>
-                <Navbar />
+              
                 <div className="tl" id="vc">
                     <table className="ctble">
                         <thead>
@@ -87,12 +82,10 @@ function ViewNotification() {
                         </tbody>
                     </table>
                 </div>
-                <Footer />
+               
             </>
         );
-    } else {
-        return <SignIn />;
-    }
+  
 }
 
 export default ViewNotification;

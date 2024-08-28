@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../constant";
-import Navbar from "../Navbar/navbar";
-import Footer from "../Footer/footer";
-import Loader from "../../loader/loader"; // Import the Loader component
-import SignIn from "../SignIn/signin.jsx";
+import Loader from "../../loader/loader";
 
 function CreateNotification() {
     const token = localStorage.getItem("token");
@@ -79,10 +76,10 @@ function CreateNotification() {
         setSuccessMessage('');
     };
 
-    if (token) {
+  
         return (
             <>
-                <Navbar></Navbar>
+
                 <div className="center vs1">
                     {loading ? ( // Display loader while loading
                         <Loader />
@@ -154,12 +151,9 @@ function CreateNotification() {
                         </div>
                     )}
                 </div>
-                <Footer></Footer>
             </>
         );
-    } else {
-        return <SignIn></SignIn>;
-    }
+  
 }
 
 export default CreateNotification;

@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { BACKEND_URL } from "../../constant";
-import Navbar from "../Navbar/navbar";
-import Footer from "../Footer/footer";
-import Loader from '../../loader/loader'; // Import the Loader component
-import SignIn from '../SignIn/signin.jsx';
+import Loader from '../../loader/loader';
 
 function UpdateCampus() {
     const token = localStorage.getItem("token")
@@ -72,6 +69,11 @@ function UpdateCampus() {
                 "Message": formData.Message,
                 "pack": formData.pack,
                 "Location": formData.Location
+            },{
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
             });
 
             if (response.status === 200) {
@@ -105,10 +107,8 @@ function UpdateCampus() {
         setSuccessMessage('');
     };
 
-    if(token){
         return (
             <>
-                <Navbar />
                 <div className="center vs1">
                     {loading ? ( // Display loader while loading
                         <Loader />
@@ -178,12 +178,10 @@ function UpdateCampus() {
                         </div>
                     )}
                 </div>
-                <Footer />
+              
             </>
         );
-    } else {
-        return <SignIn />;
-    }
+  
 }
 
 export default UpdateCampus;

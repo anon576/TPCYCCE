@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,8 +10,7 @@ const Forgetpassword = () => {
     const navigate = useNavigate();
     const [stage, setStage] = useState(1);
     const [otp, setOtp] = useState(""); // State to store OTP
-    const [email, setEmail] = useState(""); // State to store email
-    const [storedOtpHash, setStoredOtpHash] = useState(""); // State to store hashed OTP
+    const [email, setEmail] = useState(""); 
 
     const onSubmit = async (data) => {
         if (stage === 1) {
@@ -29,8 +28,7 @@ const Forgetpassword = () => {
     
             if (response.status === 200) {
                 // OTP was sent successfully
-                setOtp(response.data.otp); // Set OTP from response for demo purposes (usually not needed)
-                setStoredOtpHash(response.data.otp); // Store the hash of the OTP for verification
+                setOtp(response.data.otp); 
                 setEmail(data.email); // Store email for later use
                 setStage(2); // Move to the OTP verification stage
                 toast.success("OTP has been sent to your email.");
@@ -88,7 +86,7 @@ const Forgetpassword = () => {
                 toast.success(response.data.message);
                 localStorage.clear();
                 localStorage.setItem("token", response.data.token);
-                navigate('/student-dashboard');
+                navigate('/');
             } else {
                 toast.error(response.data.message);
             }

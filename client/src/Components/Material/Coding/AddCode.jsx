@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
-import Loader from '../../../loader/loader'; // Import the Loader component
-import SignIn from '../../SignIn/signin';
+import Loader from '../../../loader/loader'; 
 import { BACKEND_URL } from '../../../constant';
 
 function AddCodingQuestion() {
@@ -60,13 +57,9 @@ function AddCodingQuestion() {
         setSuccessMessage('');
     };
 
-    if (!token) {
-        return <SignIn />;
-    }
 
     return (
         <>
-            <Navbar />
             <div className="center vs1">
                 {loading ? (
                     <Loader /> // Display loader while submitting the form
@@ -111,7 +104,7 @@ function AddCodingQuestion() {
                     </div>
                 )}
             </div>
-            <Footer />
+           
         </>
     );
 }

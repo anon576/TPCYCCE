@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './LoginForm.css'; 
+import '../LoginForm.css'; 
 import { Link, useNavigate } from 'react-router-dom';
-import { BACKEND_URL } from '../../constant'; // Import the BACKEND_URL constant
-import axios from 'axios'; // Import axios for making API calls
+import { BACKEND_URL } from '../../../constant';
+import axios from 'axios';
 
-const TpoLogin = () => {
+const DeanLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const TpoLogin = () => {
             if (res.status === 201) {
                 if (res.data.token) {
                     localStorage.setItem("token", res.data.token);
-                    navigate("/"); // Navigate to the home page on successful login
+                    navigate("/admin"); // Navigate to the home page on successful login
                 }
             } else if (res.status === 401) {
                 // Handle unauthorized access
@@ -48,7 +48,7 @@ const TpoLogin = () => {
                 
                 <div className='form-box'>
                     <form onSubmit={onSubmit} className="login-form">
-                        <h2>TPO Login</h2>
+                        <h2>Dean Login</h2>
                         <div className="form-group">
                             <label htmlFor="username">Enter Email:</label>
                             <input
@@ -83,4 +83,4 @@ const TpoLogin = () => {
     );
 };
 
-export default TpoLogin;
+export default DeanLogin;

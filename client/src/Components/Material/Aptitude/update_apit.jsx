@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
 import Loader from '../../../loader/loader';
-import SignIn from '../../SignIn/signin';
 import { BACKEND_URL } from '../../../constant';
 
 function UpdateAptiLRQuestion() {
@@ -73,13 +70,9 @@ function UpdateAptiLRQuestion() {
         setSuccessMessage('');
     };
 
-    if (!token) {
-        return <SignIn />;
-    }
-
+ 
     return (
         <>
-            <Navbar />
             <div className="center vs1">
                 {loading ? (
                     <Loader />
@@ -132,7 +125,6 @@ function UpdateAptiLRQuestion() {
                     </div>
                 )}
             </div>
-            <Footer />
         </>
     );
 }

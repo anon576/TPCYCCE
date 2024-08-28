@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../Navbar/navbar.jsx';
-import Footer from '../Footer/footer.jsx';
 import { BACKEND_URL } from '../../constant.js';
 import { useParams } from 'react-router-dom';
-import Loader from '../../loader/loader'; // Import the Loader 
+import Loader from '../../loader/loader'; 
 import "./attendance.css"
-import SignIn from '../SignIn/signin.jsx';
 
 const AttendanceTable = () => {
   const token = localStorage.getItem("token")
@@ -78,11 +75,11 @@ const AttendanceTable = () => {
 
 
 
-  if (token) {
+ 
 
     return (
       <>
-        <Navbar />
+     
         <div className="tl" id="vc">
           <div className="attendance-details">
             <h2>Round: {roundDetails.RoundName}</h2>
@@ -125,12 +122,9 @@ const AttendanceTable = () => {
             </table>
           )}
         </div>
-        <Footer />
       </>
     );
-  } else {
-    return <SignIn></SignIn>
-  }
+ 
 
 };
 

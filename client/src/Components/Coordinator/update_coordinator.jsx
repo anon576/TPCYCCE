@@ -3,11 +3,9 @@ import axios from 'axios';
 import './coordinator.css';
 import { BACKEND_URL } from '../../constant';
 import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 import { useForm } from 'react-hook-form'; // Don't forget to import useForm if it's not already imported
-import Loader from '../../loader/loader'; // Import the Loader component
-import SignIn from '../SignIn/signin';
+import Loader from '../../loader/loader'; 
 
 function UpdateCoordinator() {
     const token = localStorage.getItem("token")
@@ -71,10 +69,9 @@ function UpdateCoordinator() {
         setSuccessMessage('');
     };
 
-  if(token){
+
     return (
         <>
-          <Navbar></Navbar>   
         <div className="center vs1">
             {loading ? (
                 <Loader /> // Display loader while submitting the form
@@ -116,12 +113,9 @@ function UpdateCoordinator() {
                 </div>
             )}
         </div>
-        <Footer></Footer>
         </>
     );
-  }else{
-    return <SignIn></SignIn>
-  }
+
 }
 
 export default UpdateCoordinator;

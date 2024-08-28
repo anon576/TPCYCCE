@@ -156,7 +156,6 @@ class CampusHandler {
             });
            
             const campusData = await Promise.all(campusDataPromises);
-           console.log(campusData)
             res.status(200).json(campusData);
         } catch (error) {
             console.error(error);

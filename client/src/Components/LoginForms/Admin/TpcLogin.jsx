@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './LoginForm.css'; 
+import '../LoginForm.css'; 
 import { Link, useNavigate } from 'react-router-dom';
-import { BACKEND_URL } from '../../constant'; // Import the BACKEND_URL constant
+import { BACKEND_URL } from '../../../constant'; // Import the BACKEND_URL constant
 import axios from 'axios'; // Import axios for making API calls
 
 const TpcLogin = () => {
@@ -23,7 +23,7 @@ const TpcLogin = () => {
                 if (res.data.token) {
                     localStorage.setItem("token", res.data.token);
                     localStorage.setItem("role",res.data.role)
-                    navigate("/"); // Navigate to the home page on successful login
+                    navigate("/admin"); // Navigate to the home page on successful login
                 }
             } else if (res.status === 401) {
                 // Handle unauthorized access

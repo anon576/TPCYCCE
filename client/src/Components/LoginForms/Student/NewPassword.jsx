@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../LoginForm.css'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -50,7 +50,7 @@ const NewPasswordForm = () => {
             if (response.data.token) {
                 // Handle successful password update
                 localStorage.setItem('token', response.data.token); // Store the new token
-                navigate('/student-dashboard'); // Redirect to student dashboard or another page
+                navigate('/'); // Redirect to student dashboard or another page
             } else {
                 setError(response.data.message || 'An error occurred while updating the password.');
             }

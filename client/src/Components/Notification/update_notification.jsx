@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../Navbar/navbar";
-import Footer from "../Footer/footer";
 import Loader from "../../loader/loader";
-import SignIn from "../SignIn/signin";
 import { BACKEND_URL } from "../../constant";
 
 function UpdateNotification() {
@@ -96,10 +93,8 @@ function UpdateNotification() {
         setSuccessMessage('');
     };
 
-    if (token) {
         return (
             <>
-                <Navbar></Navbar>
                 <div className="center vs1">
                     {loading ? (
                         <Loader />
@@ -172,12 +167,9 @@ function UpdateNotification() {
                         </div>
                     )}
                 </div>
-                <Footer></Footer>
+               
             </>
         );
-    } else {
-        return <SignIn></SignIn>;
-    }
 }
 
 export default UpdateNotification;

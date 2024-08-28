@@ -4,10 +4,7 @@ import { useNavigate} from 'react-router-dom';
 import {Link} from 'react-router-dom'
 import { BACKEND_URL } from '../../constant.js';
 import { useLocation } from "react-router-dom";
-import Footer from '../Footer/footer.jsx';
-import Navbar from '../Navbar/navbar.jsx';
-import Loader from '../../loader/loader'; // Import the Loader component
-import SignIn from '../SignIn/signin.jsx';
+import Loader from '../../loader/loader'; 
 import "./round.css"
 
 const RoundTable = () => {
@@ -40,24 +37,24 @@ const RoundTable = () => {
     };
 
     const handleUpdateClick = (round) => {
-        navigate(`/update_round`, { state: { round } });
+        navigate(`/admin/update_round`, { state: { round } });
     };
 
     const handleRoundClick = (campusID) => {
-        navigate(`/round`, { state: { campusID } });
+        navigate(`/admin/round`, { state: { campusID } });
     };
 
    
-    if(token){
+ 
         return (
             <>
-                <Navbar></Navbar>
+             
                 <div className="tl" id="vc">
                     {loading ? (
                         <Loader /> // Display loader while loading
                     ) : (
                         <table className='ctble'>
-                            <caption className='caption'>   <div ><Link className='tv' to={`/add_round/${campusID}`}>Add new Round <div className='tk'> click here</div></Link></div></caption>
+                            <caption className='caption'>   <div ><Link  className='tv' to={`/admin/add_round/${campusID}`}>Add new Round <div className='tk'> click here</div></Link></div></caption>
                             <thead>
                                 <tr>
                                     <th>Round ID</th>
@@ -73,7 +70,7 @@ const RoundTable = () => {
                                         <td>{round.RoundID}</td>
                                         <td>{round.RoundName}</td>
                                         <td>{new Date(round.RoundDate).toLocaleDateString()}</td>
-                                        <td><Link to={`/round_attendance/${round.RoundID}`}>click here</Link></td>
+                                        <td><Link to={`/admin/round_attendance/${round.RoundID}`}>click here</Link></td>
                                         <td> <button onClick={() => handleUpdateClick(round)}>Update</button></td>
                                     </tr>
                                 ))}
@@ -82,12 +79,9 @@ const RoundTable = () => {
                     )}
                     
                 </div>
-                <Footer></Footer>
             </>
         );
-    }else{
-        return <SignIn></SignIn>
-}
+
   
 };
 

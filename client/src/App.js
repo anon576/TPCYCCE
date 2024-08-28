@@ -41,154 +41,128 @@ import CreateNotification from "./Components/Notification/create_notification";
 import ViewNotification from "./Components/Notification/read_notification";
 import UpdateNotification from "./Components/Notification/update_notification";
 import Nav from "./Components/Nav/Nav";
-import TpoLogin from "./Components/LoginForms/TpoLogin";
-import TpcLogin from "./Components/LoginForms/TpcLogin";
-import DeanLogin from "./Components/LoginForms/DeanLogin";
+import TpoLogin from "./Components/LoginForms/Admin/TpoLogin";
+import TpcLogin from "./Components/LoginForms/Admin/TpcLogin";
+import DeanLogin from "./Components/LoginForms/Admin/DeanLogin";
 import StudentLogin from "./Components/LoginForms/Student/StudentLogin";
-import Footer from "./Components/Foot/Footer";
+import Footer from "./Components/Footer/StudentFooter";
 import Layout from "./Components/Student Dashboard/Components/Layout";
 import DashboardHome from "./Components/Student Dashboard/Components/DashboardHome";
 import NewPasswordForm from "./Components/LoginForms/Student/NewPassword";
 import StudentPrivateRoute from "../src/Components/Student Dashboard/StudentPrivateRouter";
 import Profile from "./Components/Student Dashboard/Components/Profile/Profile";
 import Forgetpassword from "./Components/LoginForms/Student/ForgetPassword";
-import StudentDashboard from "./Components/Student Dashboard/Dashboard";
 import AdminNav from "./Components/Nav/AdminNav";
+import AdminPrivateRoute from './Components/PrivateRoute/AdminPrivateRoute'
 
 function App() {
 	return (
 		<>
 			<Router>
 				<Routes>
-					<Route path="/" element={<Home></Home>}></Route>
-					<Route
-						path="/create_coordinator"
-						element={<Coordinator></Coordinator>}
-					></Route>
-					<Route
-						path="/view_coordinator"
-						element={<ViewCoordinator></ViewCoordinator>}
-					/>
-					<Route
-						path="/update_coordinator"
-						element={<UpdateCoordinator></UpdateCoordinator>}
-					/>
-					<Route
-						path="/create_subadmin"
-						element={<SubAdmin></SubAdmin>}
-					></Route>
-					<Route
-						path="/view_subadmin"
-						element={<ViewSubAdmin></ViewSubAdmin>}
-					/>
-					<Route
-						path="/update_subadmin"
-						element={<UpdateSubAdmin></UpdateSubAdmin>}
-					/>
-					<Route path="/sign_in" element={<SignIn></SignIn>} />
-					<Route
-						path="/campus_create"
-						element={<CreateCampus></CreateCampus>}
-					/>
-					<Route path="/add_students" element={<AddStudent></AddStudent>} />
-					<Route path="/view_students" element={<ViewStudent></ViewStudent>} />
-					<Route
-						path="/update_student"
-						element={<UpdateStudent></UpdateStudent>}
-					/>
-					<Route
-						path="/update_campus"
-						element={<UpdateCampus></UpdateCampus>}
-					/>
-					<Route
-						path="/round_attendance/:roundID"
-						element={<AttendanceTable></AttendanceTable>}
-					/>
-					<Route path="/round" element={<RoundTable></RoundTable>} />
-					<Route path="/update_round" element={<UpdateRound></UpdateRound>} />
-					<Route path="/loader" element={<Loader></Loader>} />
-					<Route
-						path="/subadmin_login"
-						element={<SubAdminSignIn></SubAdminSignIn>}
-					></Route>
-					<Route path="/skill" element={<AddSkill></AddSkill>}></Route>
-					<Route path="/add_round/:campusID" element={<AddRound />}></Route>
-					<Route
-						path="/add_study_material"
-						element={<CampusMaterial></CampusMaterial>}
-					></Route>
-					<Route
-						path="/add_coding_question"
-						element={<AddCodingQuestion></AddCodingQuestion>}
-					></Route>
-					<Route
-						path="/view_coding_question"
-						element={<ViewCodingQuestions></ViewCodingQuestions>}
-					></Route>
-					<Route
-						path="/update_coding_question"
-						element={<UpdateCodingQuestion></UpdateCodingQuestion>}
-					></Route>
-					<Route
-						path="/add_apti_lr_question"
-						element={<CreateAptiLRQuestion></CreateAptiLRQuestion>}
-					></Route>
-					<Route
-						path="/view_apti_lr_question"
-						element={<ViewAptiLRQuestions></ViewAptiLRQuestions>}
-					></Route>
+					{/* Public Route */}
+					<Route path="/sign_in" element={<SignIn />} />
 
-					<Route
-						path="/update_apti_lr_question"
-						element={<UpdateAptiLRQuestion></UpdateAptiLRQuestion>}
-					></Route>
+					{/* Admin Routes */}
+					<Route path="/admin/*" element={<AdminPrivateRoute />}>
+						<Route
+							path=""
+							element={
+								<>
 
-					<Route
-						path="/add_interview_question"
-						element={<AddInterviewQuestion></AddInterviewQuestion>}
-					></Route>
+									<Home />
 
-					<Route
-						path="/veiw_interview_question"
-						element={<ViewInterviewQuestions></ViewInterviewQuestions>}
-					></Route>
+								</>
+							}
+						/>
+						<Route
+							path="create_coordinator"
+							element={
+								<>
 
-					<Route
-						path="/update_interview_question"
-						element={<UpdateInterviewQuestion></UpdateInterviewQuestion>}
-					></Route>
+									<Coordinator />
 
-					<Route
-						path="/view_pyq_stats"
-						element={<SeenComponent></SeenComponent>}
-					></Route>
+								</>
+							}
+						/>
+						<Route
+							path="view_coordinator"
+							element={
+								<>
 
-					<Route
-						path="/create_notification"
-						element={<CreateNotification></CreateNotification>}
-					></Route>
+									<ViewCoordinator />
 
-					<Route
-						path="/read_notification"
-						element={<ViewNotification></ViewNotification>}
-					></Route>
+								</>
+							}
+						/>
+						<Route
+							path="update_coordinator"
+							element={
+								<>
 
-					<Route
-						path="/update_notification"
-						element={<UpdateNotification></UpdateNotification>}
-					>
-						{" "}
+									<UpdateCoordinator />
+
+								</>
+							}
+						/>
+						<Route
+							path="create_subadmin"
+							element={
+								<>
+
+									<SubAdmin />
+
+								</>
+							}
+						/>
+						<Route
+							path="view_subadmin"
+							element={
+								<>
+
+									<ViewSubAdmin />
+
+								</>
+							}
+						/>
+						<Route
+							path="update_subadmin"
+							element={
+								<><UpdateSubAdmin /></>
+							}
+						/>
+						{/* Additional Admin Routes */}
+						<Route path="campus_create" element={<CreateCampus />} />
+						<Route path="add_students" element={<AddStudent />} />
+						<Route path="view_students" element={<ViewStudent />} />
+						<Route path="update_student" element={<UpdateStudent />} />
+						<Route path="update_campus" element={<UpdateCampus />} />
+						<Route path="round_attendance/:roundID" element={<AttendanceTable />} />
+						<Route path="round" element={<RoundTable />} />
+						<Route path="update_round" element={<UpdateRound />} />
+						<Route path="subadmin_login" element={<SubAdminSignIn />} />
+						<Route path="skill" element={<AddSkill />} />
+						<Route path="add_round/:campusID" element={<AddRound />} />
+						<Route path="add_study_material" element={<CampusMaterial />} />
+						<Route path="add_coding_question" element={<AddCodingQuestion />} />
+						<Route path="view_coding_question" element={<ViewCodingQuestions />} />
+						<Route path="update_coding_question" element={<UpdateCodingQuestion />} />
+						<Route path="add_apti_lr_question" element={<CreateAptiLRQuestion />} />
+						<Route path="view_apti_lr_question" element={<ViewAptiLRQuestions />} />
+						<Route path="update_apti_lr_question" element={<UpdateAptiLRQuestion />} />
+						<Route path="add_interview_question" element={<AddInterviewQuestion />} />
+						<Route path="view_interview_question" element={<ViewInterviewQuestions />} />
+						<Route path="update_interview_question" element={<UpdateInterviewQuestion />} />
+						<Route path="view_pyq_stats" element={<SeenComponent />} />
+						<Route path="create_notification" element={<CreateNotification />} />
+						<Route path="read_notification" element={<ViewNotification />} />
+						<Route path="update_notification" element={<UpdateNotification />} />
+						{/* End of Admin Routes */}
 					</Route>
-					<Route
-						path="/student_login"
-						element={
-							<>
-								<Nav />
-								<StudentLogin />
-								<Footer />
-							</>
-						}
-					/>
+
+					{/* Other Routes */}
+					<Route path="/loader" element={<Loader />} />
+
 					<Route
 						path="/admin_login"
 						element={
@@ -199,27 +173,7 @@ function App() {
 							</>
 						}
 					/>
-					<Route
-						path="/new_password"
-						element={
-							<>
-								<Nav />
-								<NewPasswordForm />
-								<Footer />
-							</>
-						}
-					/>
 
-					<Route
-						path="/forget_password"
-						element={
-							<>
-								<Nav />
-								<Forgetpassword />
-								<Footer />
-							</>
-						}
-					/>
 					<Route
 						path="/tpo"
 						element={
@@ -250,15 +204,50 @@ function App() {
 							</>
 						}
 					/>
+
+
 					<Route
-						path="/student-dashboard"
+						path="/student_login"
+						element={
+							<>
+								<Nav />
+								<StudentLogin />
+								<Footer />
+							</>
+						}
+					/>
+
+					<Route
+						path="/new_password"
+						element={
+							<>
+								<Nav />
+								<NewPasswordForm />
+								<Footer />
+							</>
+						}
+					/>
+
+					<Route
+						path="/forget_password"
+						element={
+							<>
+								<Nav />
+								<Forgetpassword />
+								<Footer />
+							</>
+						}
+					/>
+
+					<Route
+						path="/"
 						element={<StudentPrivateRoute component={Layout} />}
 					>
 						<Route index element={<Navigate to="home" replace />} />
 						<Route path="home" element={<DashboardHome />} />
 					</Route>
 
-					
+
 					<Route
 						path="/profile"
 						element={

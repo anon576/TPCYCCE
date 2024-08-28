@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from '../../constant';
-import Navbar from "../Navbar/navbar";
-import Footer from "../Footer/footer";
-import Loader from '../../loader/loader' // Import the Loader component
-import SignIn from '../SignIn/signin.jsx';
+import Loader from '../../loader/loader' 
 
 function AddStudent() {
     const token = localStorage.getItem("token")
@@ -51,10 +48,9 @@ function AddStudent() {
     };
 
     
-    if (token) {
         return (
             <>
-                <Navbar />
+          
                 <div className="center vs1">
                     <form className="form" onSubmit={uploadFile}>
                         <p className="title">Student Data</p>
@@ -79,12 +75,10 @@ function AddStudent() {
                         </div>
                     )}
                 </div>
-                <Footer />
+            
             </>
         );
-    } else {
-        return <SignIn></SignIn>
-    }
+   
 
 }
 

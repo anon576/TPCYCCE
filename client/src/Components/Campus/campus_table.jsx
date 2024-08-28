@@ -21,7 +21,7 @@ function CampusTable({ campuses }) {
     }
 
     const handleRoundClick = (campusID) => {
-        navigate(`/round`, { state: { campusID } });
+        navigate(`/admin/round`, { state: { campusID } });
     };
 
     return (

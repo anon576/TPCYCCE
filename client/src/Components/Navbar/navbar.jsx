@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./navbar.css";
-import SignIn from '../SignIn/signin';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -88,7 +87,7 @@ function Navbar() {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  if (token) {
+
     return (
       <>
         <link
@@ -99,7 +98,7 @@ function Navbar() {
           <div className="navbar">
             <i className="bx bx-menu" />
             <div className="logo">
-              <a href="/">Yeshwant</a>
+              <a href="/admin">Yeshwant</a>
             </div>
             <div className="nav-links">
               <div className="sidebar-logo">
@@ -108,17 +107,17 @@ function Navbar() {
               </div>
               <ul className="links">
                 <li>
-                  <Link to="/">HOME</Link>
+                  <Link to="/admin">HOME</Link>
                 </li>
                 <li>
                   <a href="#">COORDINATOR</a>
                   <i className="bx bxs-chevron-down htmlcss-arrow arrow" />
                   <ul className="htmlCss-sub-menu sub-menu">
                     <li>
-                      <Link to="/create_coordinator">CREATE</Link>
+                      <Link to="/admin/create_coordinator">CREATE</Link>
                     </li>
                     <li>
-                      <Link to="/view_coordinator">VIEW</Link>
+                      <Link to="/admin/view_coordinator">VIEW</Link>
                     </li>
                   </ul>
                 </li>
@@ -128,10 +127,10 @@ function Navbar() {
                     <i className="bx bxs-chevron-down htmlcss-arrow arrow" />
                     <ul className="htmlCss-sub-menu sub-menu">
                       <li>
-                        <Link to="/create_subadmin">CREATE</Link>
+                        <Link to="/admin/create_subadmin">CREATE</Link>
                       </li>
                       <li>
-                        <Link to="/view_subadmin">VIEW</Link>
+                        <Link to="/admin/view_subadmin">VIEW</Link>
                       </li>
                     </ul>
                   </li>
@@ -141,16 +140,16 @@ function Navbar() {
                   <i className="bx bxs-chevron-down js-arrow arrow" />
                   <ul className="js-sub-menu sub-menu">
                     <li>
-                      <Link to="/campus_create">CREATE</Link>
+                      <Link to="/admin/campus_create">CREATE</Link>
                     </li>
                     <li>
-                      <Link to="/add_study_material">PREP MATERIAL</Link>
+                      <Link to="/admin/add_study_material">PREP MATERIAL</Link>
                     </li>
                     <li>
-                      <Link to="/read_notification">NOTIFICATION</Link>
+                      <Link to="/admin/read_notification">NOTIFICATION</Link>
                     </li>
                     <li>
-                      <Link to="/create_notification">CREATE NOTIFICATION</Link>
+                      <Link to="/admin/create_notification">CREATE NOTIFICATION</Link>
                     </li>
                   </ul>
                 </li>
@@ -159,13 +158,13 @@ function Navbar() {
                   <i className="bx bxs-chevron-down js-arrow arrow" />
                   <ul className="js-sub-menu sub-menu">
                     <li>
-                      <Link to="/add_students">UPLOAD STUDENT PROFILE</Link>
+                      <Link to="/admin/add_students">UPLOAD STUDENT PROFILE</Link>
                     </li>
                     <li>
-                      <Link to="/view_students">VIEW STUDENT</Link>
+                      <Link to="/admin/view_students">VIEW STUDENT</Link>
                     </li>
                     <li>
-                      <Link to="/skill">STUDENT SKILLS</Link>
+                      <Link to="/admin/skill">STUDENT SKILLS</Link>
                     </li>
                   </ul>
                 </li>
@@ -176,9 +175,7 @@ function Navbar() {
         </nav>
       </>
     );
-  } else {
-    return <SignIn />;
-  }
+ 
 }
 
 export default Navbar;

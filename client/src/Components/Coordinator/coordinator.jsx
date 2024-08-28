@@ -58,10 +58,9 @@ function Coordinator() {
         setSuccessMessage('');
     };
 
-    if(token){
-        return (
+    return (
             <>
-                <Navbar></Navbar>
+               
                 <div className="center vs1">
                     {loading ? (
                         <Loader /> // Display loader while submitting the form
@@ -103,13 +102,10 @@ function Coordinator() {
                         </div>
                     )}
                 </div>
-                <Footer></Footer>
+              
             </>
-        );
-    }else{
-        return <SignIn></SignIn>
-    }
- 
-}
+      
+    )
+                    }
 
 export default Coordinator;

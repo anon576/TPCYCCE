@@ -2,15 +2,11 @@ import "./home.css";
 import React, { useState, useEffect } from "react";
 import CampusCard from "../Campus/campus_card";
 import CampusTable from "../Campus/campus_table";
-import Footer from "../Footer/footer";
-import Navbar from "../Navbar/navbar";
-import { useNavigate} from 'react-router-dom';
-import Loader from '../../loader/loader'; // Import the Loader component
+import Loader from '../../loader/loader'; 
 import axios from 'axios';
 import { BACKEND_URL } from "../../constant";
 
 function Home() {
-    const navigate = useNavigate()
     const [campuses, setCampuses] = useState([]);
     const [loading, setLoading] = useState(false); // State to manage loading
     const token = localStorage.getItem("token");
@@ -54,9 +50,8 @@ function Home() {
     const pastCampuses = campuses.slice(4);
 
     return (
-        token ? (
             <>
-                <Navbar/>
+              
                 <br />
                 {loading ? (
                     <Loader /> // Display loader while loading
@@ -84,11 +79,9 @@ function Home() {
                         </div>
                     </>
                 )}
-                <Footer />
+               
             </>
-        ) : (
-            navigate("/admin_login")
-        )
+        
     );
 }
 

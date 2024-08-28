@@ -49,7 +49,7 @@ function ViewAptiLRQuestions() {
 
     const handleUpdateClick = (aptiLRQuestion) => {
         console.log(aptiLRQuestion)
-        navigate(`/update_apti_lr_question`, { state: { aptiLRQuestion } });
+        navigate(`/admin/update_apti_lr_question`, { state: { aptiLRQuestion } });
     };
 
     const handleDeleteClick = async (aptiLRID) => {
@@ -74,10 +74,8 @@ function ViewAptiLRQuestions() {
         return <div>Error: {error}</div>;
     }
 
-    if (token) {
-        return (
+     return (
             <>
-                <Navbar />
                 <div className="tl" id="vc">
                     <h2>{campusName ? `Apti/Logical Reasoning Questions for ${campusName}` : 'Apti/Logical Reasoning Questions'}</h2>
                     <table className="ctble">
@@ -114,12 +112,8 @@ function ViewAptiLRQuestions() {
                         </tbody>
                     </table>
                 </div>
-                <Footer />
             </>
         );
-    } else {
-        return <SignIn />;
-    }
 }
 
 export default ViewAptiLRQuestions;

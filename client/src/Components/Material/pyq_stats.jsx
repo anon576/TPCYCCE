@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../Navbar/navbar.jsx';
-import Footer from '../Footer/footer.jsx';
 import { BACKEND_URL } from '../../constant.js';
 import { useLocation } from 'react-router-dom';
-import Loader from '../../loader/loader'; // Import the Loader 
-import SignIn from '../SignIn/signin.jsx';
+import Loader from '../../loader/loader'; 
 
 const SeenComponent = () => {
   const token = localStorage.getItem("token");
@@ -75,10 +72,9 @@ const SeenComponent = () => {
     }
   };
 
-  if (token) {
     return (
       <>
-        <Navbar />
+      
         <div className="tl" id="vc">
           {loading ? (
             <Loader /> // Display loader when loading
@@ -110,12 +106,8 @@ const SeenComponent = () => {
             </table>
           )}
         </div>
-        <Footer />
       </>
     );
-  } else {
-    return <SignIn />;
-  }
 };
 
 export default SeenComponent;

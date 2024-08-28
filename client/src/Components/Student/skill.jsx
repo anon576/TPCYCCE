@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from '../../constant';
-import Navbar from "../Navbar/navbar";
-import Footer from "../Footer/footer";
 import Loader from '../../loader/loader';
-import SignIn from '../SignIn/signin.jsx';
 import {skills} from '../../constant.js'
 
 function AddSkill() {
@@ -64,10 +61,10 @@ function AddSkill() {
         setSuccessMessage('');
     };
 
-    if (token) {
+
         return (
             <>
-                <Navbar />
+            
                 <div className="center vs1">
                     <form className="form" onSubmit={downloadStudents}>
                         <p className="title">Download Students by Skill</p>
@@ -98,12 +95,10 @@ function AddSkill() {
                         </div>
                     )}
                 </div>
-                <Footer />
+             
             </>
         );
-    } else {
-        return <SignIn />;
-    }
+ 
 }
 
 export default AddSkill;

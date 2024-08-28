@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './student.css';
 import { BACKEND_URL } from '../../constant';
-import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import Loader from '../../loader/loader'; // Import the Loader component
-import SignIn from '../SignIn/signin.jsx';
+import Loader from '../../loader/loader'; 
+
+
 function UpdateStudent() {
     const token = localStorage.getItem("token")
     const { state: { student } } = useLocation();
@@ -106,10 +105,10 @@ function UpdateStudent() {
 
 
    
-    if(token){
+ 
         return (
             <>
-                <Navbar />
+               
                 <div className="center vs1 upb">
                     <form className="form ups" onSubmit={handleSubmit(onSubmit)}>
                         <p className="title upj">Update Student</p>
@@ -230,12 +229,10 @@ function UpdateStudent() {
                         </div>
                     )}
                 </div>
-                <Footer />
+               
             </>
         );
-    }else{
-           return <SignIn></SignIn>
-       }
+   
 
   
 }

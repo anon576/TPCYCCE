@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
 import Loader from '../../../loader/loader';
-import SignIn from '../../SignIn/signin';
 import { BACKEND_URL } from '../../../constant';
 
 function AddInterviewQuestion() {
@@ -60,13 +57,10 @@ function AddInterviewQuestion() {
         setSuccessMessage('');
     };
 
-    if (!token) {
-        return <SignIn />;
-    }
 
     return (
         <>
-            <Navbar />
+          
             <div className="center vs1">
                 {loading ? (
                     <Loader />
@@ -99,7 +93,7 @@ function AddInterviewQuestion() {
                     </div>
                 )}
             </div>
-            <Footer />
+         
         </>
     );
 }

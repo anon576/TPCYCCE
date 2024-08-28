@@ -1,10 +1,6 @@
-import SignIn from "../SignIn/signin";
-import "./footer.css"
+import "./foot.css"
 
-function Footer(){
-
-  const token = localStorage.getItem("token")
-  if(token){
+function FooterAdmin(){
     return(
         <>
   {/* ===== BOX ICONS ===== */}
@@ -33,11 +29,8 @@ function Footer(){
   </footer>
 </>
 
-    )}
-else{
-  return <SignIn></SignIn>
-}
+    )
 }
 
 
-export default Footer;
+export default FooterAdmin;

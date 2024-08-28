@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
 import Loader from '../../loader/loader'; 
-import SignIn from '../SignIn/signin';
 import { BACKEND_URL } from '../../constant';
 
 function CampusMaterial() {
@@ -75,31 +72,31 @@ function CampusMaterial() {
     };
 
     const handleAddCodingQuestion = (campus) => {
-        navigate(`/add_coding_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
+        navigate(`/admin/add_coding_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
     };
 
     const handleVeiwCodingQuestion = (campus) => {
-        navigate(`/view_coding_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
+        navigate(`/admin/view_coding_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
     };
 
     const handlePyqCodingQuestion = (campus,pyq) => {
-        navigate(`/view_pyq_stats`, { state: { campusId: campus.campusID, campusName: campus.campusName ,pyq:pyq} });
+        navigate(`/admin/view_pyq_stats`, { state: { campusId: campus.campusID, campusName: campus.campusName ,pyq:pyq} });
     };
 
     const handleAddAptiLRQuestion = (campus) => {
-        navigate(`/add_apti_lr_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
+        navigate(`/admin/add_apti_lr_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
     };
 
     const handleAptiAptiLRQuestion = (campus) => {
-        navigate(`/view_apti_lr_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
+        navigate(`/admin/view_apti_lr_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
     };
 
     const handleAddInterviewQuestion = (campus) => {
-        navigate(`/add_interview_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
+        navigate(`/admin/add_interview_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
     };
 
     const handleVeiwInterviewQuestion = (campus) => {
-        navigate(`/veiw_interview_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
+        navigate(`/admin/veiw_interview_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
     };
 
     if (loading) {
@@ -110,10 +107,8 @@ function CampusMaterial() {
         return <div>Error: {error}</div>;
     }
 
-    if (token) {
         return (
             <>
-                <Navbar />
                 <div className="tl" id="vc">
                     {successMessage && (
                         <div className="popup success-popup">
@@ -172,12 +167,9 @@ function CampusMaterial() {
                         </tbody>
                     </table>
                 </div>
-                <Footer />
+              
             </>
         );
-    } else {
-        return <SignIn />;
-    }
 }
 
 export default CampusMaterial;

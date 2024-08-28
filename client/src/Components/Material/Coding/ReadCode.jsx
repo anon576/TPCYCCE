@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../constant';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Loader from '../../../loader/loader';
-import SignIn from '../../SignIn/signin';
 
 function ViewCodingQuestions() {
     const token = localStorage.getItem("token");
@@ -49,7 +46,7 @@ function ViewCodingQuestions() {
     }, [campusId]);
 
     const handleUpdateClick = (codingQuestion) => {
-        navigate(`/update_coding_question`, { state: { codingQuestion } });
+        navigate(`/admin/update_coding_question`, { state: { codingQuestion } });
     };
 
     const handleDeleteClick = async (codeID) => {
@@ -74,10 +71,9 @@ function ViewCodingQuestions() {
         return <div>Error: {error}</div>;
     }
 
-    if (token) {
+
         return (
             <>
-                <Navbar />
                 <div className="tl" id="vc">
                     <h2>{campusName ? `Coding Questions for ${campusName}` : 'Coding Questions'}</h2>
                     <table className="ctble">
@@ -110,12 +106,8 @@ function ViewCodingQuestions() {
                         </tbody>
                     </table>
                 </div>
-                <Footer />
             </>
         );
-    } else {
-        return <SignIn />;
-    }
 }
 
 export default ViewCodingQuestions;

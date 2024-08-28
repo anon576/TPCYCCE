@@ -22,11 +22,11 @@ function CampusCard({ campus }) {
     }
 
     const handleUpdateClick = (campusID) => {
-        navigate(`/update_campus`, { state: { campusID } });
+        navigate(`/admin/update_campus`, { state: { campusID } });
     };
 
     const handleRoundClick = (campusID) => {
-        navigate(`/round`, { state: { campusID } });
+        navigate(`/admin/round`, { state: { campusID } });
     };
 
     return (
@@ -46,7 +46,7 @@ function CampusCard({ campus }) {
                         <tr key={round.roundID}>
                             <td>{round.roundName}</td>
                             <td>{round.presentCount}</td>
-                            <td><Link to={`/round_attendance/${round.roundID}`}>click here</Link></td>
+                            <td><Link to={`/admin/round_attendance/${round.roundID}`}>click here</Link></td>
                         </tr>
                     ))}
                 </tbody>

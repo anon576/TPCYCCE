@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../../constant";
-import Navbar from "../Navbar/navbar";
-import Footer from "../Footer/footer";
 import { useForm } from "react-hook-form";
-import Loader from "../../loader/loader";  // Import the Loader component
-import SignIn from "../SignIn/signin";
+import Loader from "../../loader/loader";  
 
 function UpdateRound() {
     const token = localStorage.getItem("token")
@@ -78,10 +75,9 @@ function UpdateRound() {
         setSuccessMessage('');
     };
 
-    if(token){
+
         return (
             <>
-                <Navbar />
                 <div className="center vs1">
                     <form className="form" onSubmit={handleSubmit(onSubmit)}>
                         <p className="title">Round</p>
@@ -135,12 +131,10 @@ function UpdateRound() {
                         </div>
                     )}
                 </div>
-                <Footer />
+            
             </>
         );
-    }else{
-        return <SignIn></SignIn>
-    }
+ 
  
 }
 

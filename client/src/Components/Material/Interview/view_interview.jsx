@@ -51,7 +51,7 @@ function ViewInterviewQuestions() {
     
 
     const handleUpdateClick = (question) => {
-        navigate(`/update_interview_question`, { state: { question } });
+        navigate(`/admin/update_interview_question`, { state: { question } });
     };
 
     const handleDeleteClick = async (codeID) => {

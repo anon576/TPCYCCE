@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './coordinator.css';
 import { BACKEND_URL } from '../../constant';
-import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../../loader/loader'; // Import the Loader component
-import SignIn from '../SignIn/signin';
+import Loader from '../../loader/loader'; 
 
 function ViewCoordinator() {
     const token = localStorage.getItem("token")
@@ -40,7 +37,7 @@ function ViewCoordinator() {
     }, []);
 
     const handleUpdateClick = (coordinator) => {
-        navigate(`/update_coordinator`, { state: { coordinator } },{
+        navigate(`/admin/update_coordinator`, { state: { coordinator } },{
             headers: {
                 'Authorization': token,
                 'Content-Type': 'application/json',
@@ -70,10 +67,9 @@ function ViewCoordinator() {
         return <div>Error: {error}</div>;
     }
 
-    if(token){
+   
         return (
             <>
-                <Navbar />
                 <div className="tl" id="vc">
                     <table className="ctble">
                         <thead>
@@ -102,12 +98,8 @@ function ViewCoordinator() {
                         </tbody>
                     </table>
                 </div>
-                <Footer />
             </>
         );
-    }else{
-        return <SignIn></SignIn>
-    }
    
 }
 

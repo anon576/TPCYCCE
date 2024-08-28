@@ -11,7 +11,7 @@ const Layout = () => {
 		setProfile(!profile);
 	}
 	const pathname = useLocation();
-	const flag = pathname.pathname === "/student-dashboard/home";
+	const flag = pathname.pathname === "/home";
 	console.log(flag)
 	return (
 		<div className="flex flex-col min-h-screen">
@@ -26,7 +26,7 @@ const Layout = () => {
 							<ul>
 								<li className="mb-2">
 									<NavLink
-										to="/student-dashboard/home"
+										to="/home"
 										className={({ isActive }) =>
 											isActive
 												? "text-blue-800 font-bold"

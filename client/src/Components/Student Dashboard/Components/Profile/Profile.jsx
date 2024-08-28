@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../../../../loader/loader";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -29,7 +27,7 @@ const Profile = () => {
 
   return (
     <div className="bg-white shadow-md rounded-lg">
-      <Navbar />
+
       <div className="p-4 bg-gray-100 rounded-lg shadow-sm">
         <h2 className="text-xl font-semibold text-blue-500">{profile["Name of Student"]}</h2>
         <p className="mt-2 text-gray-700">

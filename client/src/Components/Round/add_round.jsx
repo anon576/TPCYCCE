@@ -3,10 +3,7 @@ import { BACKEND_URL } from '../../constant';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
 import Loader from '../../loader/loader';
-import SignIn from '../SignIn/signin';
 
 function AddRound() {
     const token = localStorage.getItem("token");
@@ -54,10 +51,10 @@ function AddRound() {
         setSuccessMessage('');
     };
 
-    if (token) {
+  
         return (
             <>
-                <Navbar></Navbar>
+               
                 <div className="center vs1">
                     {loading ? (
                         <Loader /> // Display loader while submitting the form
@@ -89,12 +86,10 @@ function AddRound() {
                         </div>
                     )}
                 </div>
-                <Footer></Footer>
+              
             </>
         );
-    } else {
-        return <SignIn></SignIn>;
-    }
+  
 }
 
 export default AddRound;

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../constant';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Loader from '../../../loader/loader';
-import SignIn from '../../SignIn/signin';
 
 function UpdateCodingQuestion() {
     const token = localStorage.getItem("token");
@@ -44,7 +41,7 @@ function UpdateCodingQuestion() {
                 },
             });
             setSuccessMessage('Coding question updated successfully.');
-            navigate(`/view_coding_question`, { state: { campusId: codingQuestion.CampusID, campusName: codingQuestion.CampusName } });
+            navigate(`/admin/view_coding_question`, { state: { campusId: codingQuestion.CampusID, campusName: codingQuestion.CampusName } });
         } catch (err) {
             setError(err.response?.data?.message || err.message || 'An error occurred while updating the coding question.');
         } finally {
@@ -52,13 +49,10 @@ function UpdateCodingQuestion() {
         }
     };
 
-    if (!token) {
-        return <SignIn />;
-    }
+
 
     return (
         <>
-            <Navbar />
             <div className="center">
                 {loading ? (
                     <Loader />
@@ -125,7 +119,7 @@ function UpdateCodingQuestion() {
                     </form>
                 )}
             </div>
-            <Footer />
+           
         </>
     );
 }
