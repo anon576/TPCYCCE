@@ -32,7 +32,7 @@ const Campus = () => {
     useEffect(() => {
         const fetchCampusData = async () => {
             setIsLoading(true);
-
+            
             // Retrieve the student data and token from localStorage
             const studentData = JSON.parse(localStorage.getItem('user'));
             const token = localStorage.getItem('token');

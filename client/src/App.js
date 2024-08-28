@@ -53,6 +53,7 @@ import StudentPrivateRoute from "../src/Components/Student Dashboard/StudentPriv
 import Profile from "./Components/Student Dashboard/Components/Profile/Profile";
 import Forgetpassword from "./Components/LoginForms/Student/ForgetPassword";
 import StudentDashboard from "./Components/Student Dashboard/Dashboard";
+import AdminNav from "./Components/Nav/AdminNav";
 
 function App() {
 	return (
@@ -189,6 +190,16 @@ function App() {
 						}
 					/>
 					<Route
+						path="/admin_login"
+						element={
+							<>
+								<AdminNav />
+								<TpoLogin />
+								<Footer />
+							</>
+						}
+					/>
+					<Route
 						path="/new_password"
 						element={
 							<>
@@ -213,7 +224,7 @@ function App() {
 						path="/tpo"
 						element={
 							<>
-								<Nav />
+								<AdminNav />
 								<TpoLogin />
 								<Footer />
 							</>
@@ -223,7 +234,7 @@ function App() {
 						path="/tpc"
 						element={
 							<>
-								<Nav />
+								<AdminNav />
 								<TpcLogin />
 								<Footer />
 							</>
@@ -233,7 +244,7 @@ function App() {
 						path="/dean"
 						element={
 							<>
-								<Nav />
+								<AdminNav />
 								<DeanLogin />
 								<Footer />
 							</>
@@ -247,11 +258,7 @@ function App() {
 						<Route path="home" element={<DashboardHome />} />
 					</Route>
 
-					<Route
-						path="/student-dashboard-dev"
-						element={<StudentDashboard />}
-					></Route>
-
+					
 					<Route
 						path="/profile"
 						element={

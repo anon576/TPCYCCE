@@ -95,7 +95,7 @@ const Skills = () => {
 
   const handleUpdateSkill = async (updatedSkill, updatedLevel) => {
     try {
-      const response = await axios.put(`${BACKEND_URL}/skill/update`, {
+      const response = await axios.put(`${BACKEND_URL}/skill/update/${currentSkill.SkillID}`, {
         SkillId: currentSkill.SkillID,
         Skill: updatedSkill,
         Level: updatedLevel,
@@ -252,9 +252,8 @@ const SkillModal = ({ skill, isOpen, onClose, onSave }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="fixed inset-0 bg-gray-600 opacity-50" onClick={onClose}></div>
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md z-50 relative">
+    <div className="fixed w-screen inset-0 z-50 bg-[#000000aa] grid items-center justify-center">
+      <div className="bg-white p-6 opacity-100 rounded-lg shadow-lg w-full max-w-md z-50 relative">
         <h3 className="text-xl font-bold mb-4">Update Skill</h3>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="skill">
@@ -264,6 +263,7 @@ const SkillModal = ({ skill, isOpen, onClose, onSave }) => {
             type="text"
             id="skill"
             value={newSkill}
+            disabled
             onChange={(e) => setNewSkill(e.target.value)}
             className="w-full px-3 py-2 border rounded-md"
           />

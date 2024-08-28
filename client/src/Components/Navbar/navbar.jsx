@@ -82,7 +82,7 @@ function Navbar() {
 
   const logout = () => {
     localStorage.clear();
-    navigate("/sign_in");
+    navigate("/admin_login");
   }
 
   const token = localStorage.getItem("token");

@@ -57,7 +57,7 @@ const Profile = () => {
           <strong>College Email:</strong> {profile["College MailID"]}
         </p>
       </div>
-      <Footer />
+  
     </div>
   );
 };

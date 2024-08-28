@@ -1,20 +1,40 @@
 import React, { useState } from 'react';
 import './LoginForm.css'; 
 import { Link, useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../../constant'; // Import the BACKEND_URL constant
+import axios from 'axios'; // Import axios for making API calls
 
-const TpcLogin = () => {
+const TpoLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle TPC login
-        console.log('TPC Username:', username);
-        console.log('TPC Password:', password);
+    const onSubmit = async (event) => {
+        event.preventDefault(); // Prevents the default form submission behavior
 
-        // Navigate to the home route
-        navigate('/');
+        try {
+            // Make the API call to the backend
+            const res = await axios.post(BACKEND_URL + "/auth", {
+                username: username,
+                password: password
+            });
+
+            if (res.status === 201) {
+                if (res.data.token) {
+                    localStorage.setItem("token", res.data.token);
+                    navigate("/"); // Navigate to the home page on successful login
+                }
+            } else if (res.status === 401) {
+                // Handle unauthorized access
+                alert('Unauthorized access. Please check your credentials.');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                alert('Invalid username or password.'); // Show an alert for invalid credentials
+            } else {
+                console.error('Error:', error); // Handle other errors
+            }
+        } 
     };
 
     return (
@@ -27,7 +47,7 @@ const TpcLogin = () => {
                 </div>
                 
                 <div className='form-box'>
-                    <form onSubmit={handleSubmit} className="login-form">
+                    <form onSubmit={onSubmit} className="login-form">
                         <h2>TPO Login</h2>
                         <div className="form-group">
                             <label htmlFor="username">Enter Email:</label>
@@ -53,7 +73,7 @@ const TpcLogin = () => {
                         </div>
                         <button type="submit" className="login-button">Login</button>
                         <div className='links'>
-                            <Link className='link' to="/forgotpassword">Forgot Password ?</Link><br />
+                            <Link className='link' to="/forgotpassword">Forgot Password?</Link><br />
                             <Link className='link' to="/register">Register Now</Link>
                         </div>
                     </form>
@@ -63,4 +83,4 @@ const TpcLogin = () => {
     );
 };
 
-export default TpcLogin;
+export default TpoLogin;

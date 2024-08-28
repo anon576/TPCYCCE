@@ -1,10 +1,18 @@
-import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import React, {useState} from "react";
+import { Outlet, NavLink, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import UserInfo from "./Profile/UserInfo";
+import Profile from "./Profile/Profile";
 
 const Layout = () => {
+	const [profile, setProfile] = useState(false);
+	const openProfile = () => {
+		setProfile(!profile);
+	}
+	const pathname = useLocation();
+	const flag = pathname.pathname === "/student-dashboard/home";
+	console.log(flag)
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Navbar />
@@ -30,7 +38,8 @@ const Layout = () => {
 								</li>
 								<li className="mb-2">
 									<NavLink
-										to="/profile"
+										onClick={openProfile}
+										to=""
 										className={({ isActive }) =>
 											isActive
 												? "text-blue-800 font-bold"
@@ -57,10 +66,10 @@ const Layout = () => {
 					</div>
 				</aside>
 				<div className="w-64"></div>
-
 				{/* Main content */}
 				<div className="flex-1 p-8">
-					<Outlet />
+					<Outlet/>
+					{flag && profile && <Profile/>}
 				</div>
 			</div>
 			<Footer />

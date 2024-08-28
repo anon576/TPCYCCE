@@ -87,7 +87,7 @@ function Home() {
                 <Footer />
             </>
         ) : (
-            navigate("/sign_in")
+            navigate("/admin_login")
         )
     );
 }

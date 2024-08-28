@@ -23,7 +23,7 @@ const DashboardHome = () => {
 
 	return (
 		<>
-		<div className="flex flex-col h-full">
+		<div className="flex flex-col">
 			<div className="grid grid-cols-3 gap-4 mb-4">
 				<button
 					className={`p-4 border ${
@@ -52,7 +52,6 @@ const DashboardHome = () => {
 			</div>
 			<div className="flex-grow">{renderComponent()}</div>
 		</div>
-		<Profile/>
 		</>
 	);
 };

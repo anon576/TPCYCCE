@@ -28,7 +28,7 @@ class SkillsHandler {
 
   static updateSkill = async (req, res) => {
     const { SkillId, Skill, Level } = req.body;
-
+    console.log(SkillId)
     if (!SkillId || !Skill || !Level) {
       return res.status(400).json({ success: false, message: 'SkillId, Skill, and Level are required.' });
     }
