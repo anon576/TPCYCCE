@@ -1,4 +1,4 @@
-export const BACKEND_URL = "http://192.168.43.192:5000/api";
+export const BACKEND_URL = "http://localhost:5001/api";
 // export const BACKEND_URL = 'https://oceanzen.in/api/tpcycce'
 export const BRANCHS = ['ALL','Comp Tech','Info Tech','Electronics','ETC','Electrical','Mechanical','Civil','AIDS','AIML','IIOT','CSD' ]
 

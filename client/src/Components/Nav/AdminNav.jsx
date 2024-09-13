@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './Nav.css';
 import logo from "../../assets/y.png"
 
@@ -9,7 +9,7 @@ const AdminNav = () => {
     return (
         <>
             <nav className="nav1bar">
-                <div className="logo"><img className='img' src={logo} alt=''/>Yeshwant</div>
+                <Link to="/" className='cursor-pointer'><div className="logo"><img className='img' src={logo} alt=''/>Yeshwant</div></Link>
                 {/* <span className="menu-toggle" onClick={() => setIsMobile(!isMobile)}>
                     &#9776;
                 </span> */}

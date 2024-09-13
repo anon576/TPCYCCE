@@ -24,7 +24,7 @@ const EmployerLogin = () => {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem("role","Employer")
                     localStorage.setItem('user', JSON.stringify(response.data.user));
-                    navigate('/home'); // Redirect to student dashboard
+                    navigate('/employer-dashboard'); // Redirect to student dashboard
                 
             } else {
                 alert(response.data.message);

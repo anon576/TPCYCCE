@@ -56,6 +56,8 @@ import AdminNav from "./Components/Nav/AdminNav";
 import AdminPrivateRoute from './Components/PrivateRoute/AdminPrivateRoute'
 import EmployerLogin from './Components/LoginForms/Employer/Login'
 import EmployerRegister from './Components/LoginForms/Employer/Register'
+import EmployerDashboard from "./Components/Employer/EmployerDashboard";
+import HomePage from "./Components/Home/HomePage";
 
 
 
@@ -68,6 +70,7 @@ function App() {
 				<Routes>
 					{/* Public Route */}
 					<Route path="/sign_in" element={<SignIn />} />
+					<Route path="/" element={<HomePage />} />
 
 					{/* Admin Routes */}
 					<Route path="/admin/*" element={<AdminPrivateRoute />}>
@@ -75,9 +78,7 @@ function App() {
 							path=""
 							element={
 								<>
-
 									<Home />
-
 								</>
 							}
 						/>
@@ -85,9 +86,7 @@ function App() {
 							path="create_coordinator"
 							element={
 								<>
-
 									<Coordinator />
-
 								</>
 							}
 						/>
@@ -95,9 +94,7 @@ function App() {
 							path="view_coordinator"
 							element={
 								<>
-
 									<ViewCoordinator />
-
 								</>
 							}
 						/>
@@ -105,9 +102,7 @@ function App() {
 							path="update_coordinator"
 							element={
 								<>
-
 									<UpdateCoordinator />
-
 								</>
 							}
 						/>
@@ -115,9 +110,7 @@ function App() {
 							path="create_subadmin"
 							element={
 								<>
-
 									<SubAdmin />
-
 								</>
 							}
 						/>
@@ -125,16 +118,16 @@ function App() {
 							path="view_subadmin"
 							element={
 								<>
-
 									<ViewSubAdmin />
-
 								</>
 							}
 						/>
 						<Route
 							path="update_subadmin"
 							element={
-								<><UpdateSubAdmin /></>
+								<>
+									<UpdateSubAdmin />
+								</>
 							}
 						/>
 						{/* Additional Admin Routes */}
@@ -143,7 +136,10 @@ function App() {
 						<Route path="view_students" element={<ViewStudent />} />
 						<Route path="update_student" element={<UpdateStudent />} />
 						<Route path="update_campus" element={<UpdateCampus />} />
-						<Route path="round_attendance/:roundID" element={<AttendanceTable />} />
+						<Route
+							path="round_attendance/:roundID"
+							element={<AttendanceTable />}
+						/>
 						<Route path="round" element={<RoundTable />} />
 						<Route path="update_round" element={<UpdateRound />} />
 						<Route path="subadmin_login" element={<SubAdminSignIn />} />
@@ -151,18 +147,48 @@ function App() {
 						<Route path="add_round/:campusID" element={<AddRound />} />
 						<Route path="add_study_material" element={<CampusMaterial />} />
 						<Route path="add_coding_question" element={<AddCodingQuestion />} />
-						<Route path="view_coding_question" element={<ViewCodingQuestions />} />
-						<Route path="update_coding_question" element={<UpdateCodingQuestion />} />
-						<Route path="add_apti_lr_question" element={<CreateAptiLRQuestion />} />
-						<Route path="view_apti_lr_question" element={<ViewAptiLRQuestions />} />
-						<Route path="update_apti_lr_question" element={<UpdateAptiLRQuestion />} />
-						<Route path="add_interview_question" element={<AddInterviewQuestion />} />
-						<Route path="view_interview_question" element={<ViewInterviewQuestions />} />
-						<Route path="update_interview_question" element={<UpdateInterviewQuestion />} />
+						<Route
+							path="view_coding_question"
+							element={<ViewCodingQuestions />}
+						/>
+						<Route
+							path="update_coding_question"
+							element={<UpdateCodingQuestion />}
+						/>
+						<Route
+							path="add_apti_lr_question"
+							element={<CreateAptiLRQuestion />}
+						/>
+						<Route
+							path="view_apti_lr_question"
+							element={<ViewAptiLRQuestions />}
+						/>
+						<Route
+							path="update_apti_lr_question"
+							element={<UpdateAptiLRQuestion />}
+						/>
+						<Route
+							path="add_interview_question"
+							element={<AddInterviewQuestion />}
+						/>
+						<Route
+							path="view_interview_question"
+							element={<ViewInterviewQuestions />}
+						/>
+						<Route
+							path="update_interview_question"
+							element={<UpdateInterviewQuestion />}
+						/>
 						<Route path="view_pyq_stats" element={<SeenComponent />} />
-						<Route path="create_notification" element={<CreateNotification />} />
+						<Route
+							path="create_notification"
+							element={<CreateNotification />}
+						/>
 						<Route path="read_notification" element={<ViewNotification />} />
-						<Route path="update_notification" element={<UpdateNotification />} />
+						<Route
+							path="update_notification"
+							element={<UpdateNotification />}
+						/>
 						{/* End of Admin Routes */}
 					</Route>
 
@@ -211,7 +237,6 @@ function App() {
 						}
 					/>
 
-
 					<Route
 						path="/student_login"
 						element={
@@ -229,6 +254,16 @@ function App() {
 							<>
 								<Nav />
 								<EmployerLogin></EmployerLogin>
+								<Footer />
+							</>
+						}
+					/>
+					<Route
+						path="/employer-dashboard"
+						element={
+							<>
+								<Nav />
+								<EmployerDashboard />
 								<Footer />
 							</>
 						}
@@ -267,13 +302,20 @@ function App() {
 					/>
 
 					<Route
-						path="/home"
+						path="/student-dashboard"
 						element={<StudentPrivateRoute component={Layout} />}
 					>
 						<Route index element={<Navigate to="home" replace />} />
 						<Route path="home" element={<DashboardHome />} />
 					</Route>
 
+					<Route
+						path="/home"
+						element={<StudentPrivateRoute component={Layout} />}
+					>
+						<Route index element={<Navigate to="home" replace />} />
+						<Route path="home" element={<DashboardHome />} />
+					</Route>
 
 					<Route
 						path="/profile"

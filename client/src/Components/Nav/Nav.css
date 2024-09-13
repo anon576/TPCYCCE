@@ -1,85 +1,64 @@
-Nav.css
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .nav1bar {
-    background-color: #333;
-    overflow: hidden;
+    background-color: #1a1a1d;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
 }
 
-.nav1-links {
-    list-style: none;
+.logo {
     display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.nav1-links {
+    display: flex;
+    list-style: none;
     margin: 0;
-    padding: 0;
 }
 
 .nav1-item {
-    margin: 0 15px;
+    margin-left: 30px;
 }
 
 .nav1-link {
     color: white;
-    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
     padding: 10px 15px;
-    transition: background-color 0.3s, color 0.3s;
-    border-radius: 4px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .nav1-link:hover {
-    background-color: #555;
-    color: #800000;
+    background-color: #e63946;
+    color: #fff;
+    transform: scale(1.05);
 }
 
 .nav1-link.active {
-    background-color: #800000;
-    color: #fff;
-}
-
-.logo {
-    padding: 0px 1rem;
-    height: 50px;
+    background-color: #e63946;
     color: white;
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-.img{
-    height: 100%;
-}
-
-@media (max-width: 768px) {
-    .nav1-links {
-        flex-direction: column;
-        display: none;
-        width: 100%;
-        background-color: #333;
-    }
-
-    .nav1-item {
-        margin: 10px 0;
-        text-align: center;
-    }
-
-    .nav1-links.active {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: block;
-        cursor: pointer;
-        color: white;
-        font-size: 1.5em;
-    }
+    box-shadow: 0 2px 10px rgba(230, 57, 70, 0.4);
 }

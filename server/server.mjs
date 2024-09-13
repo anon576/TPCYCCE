@@ -79,6 +79,6 @@ app.use("/api/pyq",pyqRouter)
 
 app.use("/api/notification",notificationRoute)
 
-app.listen(5000, '0.0.0.0');
+app.listen(5001, '0.0.0.0');
 
 
