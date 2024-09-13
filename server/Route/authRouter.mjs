@@ -19,5 +19,10 @@ AuthRouter.post("/co_login",AuthHandler.coLogin)
 
 AuthRouter.post("/subadmin",AuthHandler.subAdminLogin)
 
+AuthRouter.post("/request_otp",AuthHandler.sendOtp)
+
+AuthRouter.post("/employer_registration",AuthHandler.employerRegistration)
+
+AuthRouter.post("/employer_login",AuthHandler.employerLogin)
 
 export default AuthRouter;

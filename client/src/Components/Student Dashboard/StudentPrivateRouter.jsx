@@ -8,12 +8,24 @@ const StudentPrivateRoute = ({
     const isStudentSignedIn = !!localStorage.getItem('token');
 
     if (isStudentSignedIn) {
-        return (
-            <div>
-                {StudentNavbar && <StudentNavbar />}
-                <Component />
-            </div>
-        );
+        const role = localStorage.getItem("role")
+
+            if(role === 'Employer'){
+                return (
+                    <div>
+                        {StudentNavbar && <StudentNavbar />}
+                        <Component />
+                    </div>
+                );
+        }else{
+            return (
+                <div>
+                    {StudentNavbar && <StudentNavbar />}
+                    <Component />
+                </div>
+            );
+        }
+       
     }
 
     // Redirect to student login page if not signed in

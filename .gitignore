@@ -7,6 +7,7 @@
 /client/build
 /server/.env
 /server/package-lock.json
+/server/Utils/tpcycce.json
 schema.sql
 /.pnp
 .pnp.js
@@ -27,3 +28,4 @@ schema.sql
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+

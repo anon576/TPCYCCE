@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendOTPMail = (email, otp, subject) => {
     const mailOptions = {
-        from: 'codestream63@gmail.com',
+        from: process.env.EMAIL,
         to: email,
         subject: subject,
         text: `Your OTP for registration is: ${otp}`,

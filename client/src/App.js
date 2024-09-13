@@ -54,6 +54,12 @@ import Profile from "./Components/Student Dashboard/Components/Profile/Profile";
 import Forgetpassword from "./Components/LoginForms/Student/ForgetPassword";
 import AdminNav from "./Components/Nav/AdminNav";
 import AdminPrivateRoute from './Components/PrivateRoute/AdminPrivateRoute'
+import EmployerLogin from './Components/LoginForms/Employer/Login'
+import EmployerRegister from './Components/LoginForms/Employer/Register'
+
+
+
+
 
 function App() {
 	return (
@@ -218,6 +224,27 @@ function App() {
 					/>
 
 					<Route
+						path="/employer_login"
+						element={
+							<>
+								<Nav />
+								<EmployerLogin></EmployerLogin>
+								<Footer />
+							</>
+						}
+					/>
+					<Route
+						path="/employer_register"
+						element={
+							<>
+								<Nav />
+								<EmployerRegister></EmployerRegister>
+								<Footer />
+							</>
+						}
+					/>
+
+					<Route
 						path="/new_password"
 						element={
 							<>
@@ -240,7 +267,7 @@ function App() {
 					/>
 
 					<Route
-						path="/"
+						path="/home"
 						element={<StudentPrivateRoute component={Layout} />}
 					>
 						<Route index element={<Navigate to="home" replace />} />
