@@ -3,10 +3,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../../constant';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import Navbar from '../Navbar/navbar';
-import Footer from '../Footer/footer';
-import Loader from '../../loader/loader'; // Import the Loader component
-import SignIn from '../SignIn/signin';
+import Loader from '../../loader/loader';
 
 function Coordinator() {
     const token = localStorage.getItem("token")

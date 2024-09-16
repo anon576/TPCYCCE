@@ -84,6 +84,11 @@ function Navbar() {
     navigate("/admin_login");
   }
 
+  const employerRequest = () => {
+    navigate("/admin/employers");
+  }
+
+
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
@@ -170,6 +175,7 @@ function Navbar() {
                 </li>
               </ul>
             </div>
+            <button onClick={employerRequest} className="signin">Notifcation</button>
             <button onClick={logout} className="signin">SIGN OUT</button>
           </div>
         </nav>

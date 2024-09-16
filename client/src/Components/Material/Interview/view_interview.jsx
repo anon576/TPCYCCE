@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
 import Loader from '../../../loader/loader';
-import SignIn from '../../SignIn/signin';
 import { BACKEND_URL } from '../../../constant';
 
 function ViewInterviewQuestions() {
@@ -76,10 +73,9 @@ function ViewInterviewQuestions() {
         return <div>Error: {error}</div>;
     }
 
-    if (token) {
         return (
             <>
-                <Navbar />
+         
                 <div className="tl" id="vc">
                     <h2>{campusName ? `Interview Questions for ${campusName}` : 'Interview Questions'}</h2>
                     <table className="ctble">
@@ -106,12 +102,10 @@ function ViewInterviewQuestions() {
                         </tbody>
                     </table>
                 </div>
-                <Footer />
+            
             </>
         );
-    } else {
-        return <SignIn />;
-    }
+
 }
 
 export default ViewInterviewQuestions;

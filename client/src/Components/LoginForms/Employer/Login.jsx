@@ -9,6 +9,20 @@ const EmployerLogin = () => {
     const navigate = useNavigate();
 
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const role = localStorage.getItem("role")
+            if(role == "Employer"){
+                navigate('/employer/employer-dashboard'); 
+            }else{
+                localStorage.clear()
+                navigate("/employer_login")
+            }
+            
+        }
+    }, [navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -24,7 +38,7 @@ const EmployerLogin = () => {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem("role","Employer")
                     localStorage.setItem('user', JSON.stringify(response.data.user));
-                    navigate('/employer-dashboard'); // Redirect to student dashboard
+                    navigate('/employer/employer-dashboard'); // Redirect to student dashboard
                 
             } else {
                 alert(response.data.message);

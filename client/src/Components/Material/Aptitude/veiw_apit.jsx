@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../constant';
-import Navbar from '../../Navbar/navbar';
-import Footer from '../../Footer/footer';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Loader from '../../../loader/loader';
-import SignIn from '../../SignIn/signin';
 
 function ViewAptiLRQuestions() {
     const token = localStorage.getItem("token");

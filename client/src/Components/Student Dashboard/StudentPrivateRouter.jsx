@@ -29,7 +29,7 @@ const StudentPrivateRoute = ({
     }
 
     // Redirect to student login page if not signed in
-    return <Navigate to="/student_login" />;
+    return <Navigate to="/" />;
 };
 
 export default StudentPrivateRoute;

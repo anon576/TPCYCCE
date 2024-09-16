@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import Navbar from '../Navbar/navbar';
+import Navbar from '../Navbar/AdminNavbar';
 import FooterAdmin from '../Footer/footer';
 
 const AdminPrivateRoute = () => {

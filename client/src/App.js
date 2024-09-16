@@ -10,7 +10,6 @@ import Home from "./Components/Home/home";
 import Coordinator from "./Components/Coordinator/coordinator";
 import ViewCoordinator from "./Components/Coordinator/veiw_coordinator";
 import UpdateCoordinator from "./Components/Coordinator/update_coordinator";
-import SignIn from "./Components/SignIn/signin";
 import CreateCampus from "./Components/Campus/create_campus";
 import AddStudent from "./Components/Student/add_student";
 import ViewStudent from "./Components/Student/veiw_student";
@@ -23,7 +22,6 @@ import Loader from "./loader/loader";
 import SubAdmin from "./Components/SubAdmn/subadmin";
 import ViewSubAdmin from "./Components/SubAdmn/veiw_subadmin";
 import UpdateSubAdmin from "./Components/SubAdmn/update_subadmin";
-import SubAdminSignIn from "./Components/SignIn/subadmin";
 import AddSkill from "./Components/Student/skill";
 import AddRound from "./Components/Round/add_round";
 import CampusMaterial from "./Components/Material/material_campus";
@@ -58,6 +56,11 @@ import EmployerLogin from './Components/LoginForms/Employer/Login'
 import EmployerRegister from './Components/LoginForms/Employer/Register'
 import EmployerDashboard from "./Components/Employer/EmployerDashboard";
 import HomePage from "./Components/Home/HomePage";
+import EmployerPrivateRoute from "./Components/PrivateRoute/EmployerPrivateRoute";
+import { EmployerRequestProvider } from "./storage/Employer/context";
+import EmployerRequestsTable from "./Components/Admin Employer/ListRequest";
+import EmployersTable from "./Components/Admin Employer/EmployerList";
+import EmployerRequests from "./Components/Admin Employer/Ed";
 
 
 
@@ -68,9 +71,9 @@ function App() {
 		<>
 			<Router>
 				<Routes>
-					{/* Public Route */}
-					<Route path="/sign_in" element={<SignIn />} />
+
 					<Route path="/" element={<HomePage />} />
+
 
 					{/* Admin Routes */}
 					<Route path="/admin/*" element={<AdminPrivateRoute />}>
@@ -142,7 +145,6 @@ function App() {
 						/>
 						<Route path="round" element={<RoundTable />} />
 						<Route path="update_round" element={<UpdateRound />} />
-						<Route path="subadmin_login" element={<SubAdminSignIn />} />
 						<Route path="skill" element={<AddSkill />} />
 						<Route path="add_round/:campusID" element={<AddRound />} />
 						<Route path="add_study_material" element={<CampusMaterial />} />
@@ -189,11 +191,16 @@ function App() {
 							path="update_notification"
 							element={<UpdateNotification />}
 						/>
+						<Route path="employer_request" element={<EmployerRequestsTable/>}/>
+
+						<Route path="employers" element={<EmployersTable/>}/>
+
+						<Route path="employers/:employerID/requests" element={<EmployerRequests />} />
+
+
 						{/* End of Admin Routes */}
 					</Route>
 
-					{/* Other Routes */}
-					<Route path="/loader" element={<Loader />} />
 
 					<Route
 						path="/admin_login"
@@ -248,36 +255,7 @@ function App() {
 						}
 					/>
 
-					<Route
-						path="/employer_login"
-						element={
-							<>
-								<Nav />
-								<EmployerLogin></EmployerLogin>
-								<Footer />
-							</>
-						}
-					/>
-					<Route
-						path="/employer-dashboard"
-						element={
-							<>
-								<Nav />
-								<EmployerDashboard />
-								<Footer />
-							</>
-						}
-					/>
-					<Route
-						path="/employer_register"
-						element={
-							<>
-								<Nav />
-								<EmployerRegister></EmployerRegister>
-								<Footer />
-							</>
-						}
-					/>
+
 
 					<Route
 						path="/new_password"
@@ -325,6 +303,45 @@ function App() {
 							</>
 						}
 					/>
+
+
+
+
+					<Route
+						path="/employer_login"
+						element={
+							<>
+								<Nav />
+								<EmployerLogin></EmployerLogin>
+								<Footer />
+							</>
+						}
+					/>
+
+					<Route
+						path="/employer_register"
+						element={
+							<>
+								<Nav />
+								<EmployerRegister></EmployerRegister>
+								<Footer />
+							</>
+						}
+					/>
+					<Route path="/employer/*" element={<EmployerPrivateRoute />}>
+						<Route
+						path="employer-dashboard"
+						element={
+							<>
+								<EmployerRequestProvider>
+								<EmployerDashboard />
+								</EmployerRequestProvider>
+								
+						
+							</>
+						}
+					/></Route>
+					
 				</Routes>
 			</Router>
 		</>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './coordinator.css';
 import { BACKEND_URL } from '../../constant';
-import Navbar from '../Navbar/navbar';
+import Navbar from '../Navbar/AdminNavbar';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 import { useForm } from 'react-hook-form'; // Don't forget to import useForm if it's not already imported
 import Loader from '../../loader/loader'; 

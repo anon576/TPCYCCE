@@ -13,7 +13,14 @@ const StudentLogin = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            navigate('/student-dashboard'); // Redirect to student dashboard if token exists
+            const role = localStorage.getItem("role")
+            if(role == "Student"){
+                navigate('/student-dashboard'); 
+            }else{
+                localStorage.clear()
+                navigate("/student_login")
+            }
+            
         }
     }, [navigate]);
 
@@ -35,6 +42,7 @@ const StudentLogin = () => {
                 } else {
                     // Store user details in localStorage
                     localStorage.setItem('token', response.data.token);
+                    localStorage.setItem("role","Student");
                     localStorage.setItem('user', JSON.stringify(response.data.user));
                     navigate('/'); // Redirect to student dashboard
                 }
