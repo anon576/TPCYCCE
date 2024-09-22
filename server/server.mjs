@@ -12,6 +12,7 @@ import JwtOperation from './Utils/jwtoken.mjs'
 import pyqRouter from './Route/pyqRouter.mjs';
 import notificationRoute from './Route/notificationRouter.mjs';
 import EmployerRouter from './Route/employerRouter.mjs';
+import CertifcateRoute from './Route/certificateRouter.mjs';
 
 dotenv.config();
 
@@ -81,6 +82,8 @@ app.use("/api/pyq",pyqRouter)
 app.use("/api/notification",notificationRoute)
 
 app.use("/api/employer",EmployerRouter)
+
+app.use("/api/certificate",CertifcateRoute)
 
 app.listen(5001, '0.0.0.0');
 

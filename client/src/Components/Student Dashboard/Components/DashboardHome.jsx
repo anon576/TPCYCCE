@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Campus from "./Campus";
 import Skills from "./PYQ/Skills";
 import Academics from "./Profile/Academics";
+import Certification from "./Profile/Certification";
 
 
 const DashboardHome = () => {
@@ -15,6 +16,8 @@ const DashboardHome = () => {
 				return <Skills />;
 			case "Academics":
 				return <Academics />;
+			case "Certificate":
+				return <Certification/>
 			default:
 				return null;
 		}
@@ -39,6 +42,14 @@ const DashboardHome = () => {
 					onClick={() => setActiveComponent("Skills")}
 				>
 					Skills
+				</button>
+				<button
+					className={`p-4 border ${
+						activeComponent === "Certificate" ? "bg-blue-500" : "bg-gray-400"
+					} text-white`}
+					onClick={() => setActiveComponent("Certificate")}
+				>
+					Certificates
 				</button>
 				<button
 					className={`p-4 border ${
