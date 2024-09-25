@@ -5,6 +5,7 @@
   "description": "",
   "main": "server.mjs",
   "scripts": {
+    "dev":"node server.mjs",
     "test": "nodemon server.mjs"
   },
   "author": "",

@@ -63,28 +63,30 @@ app.use((err, req, res, next) => {
 });
 
 // Routes
-app.use('/api/auth', AuthRouter);
+app.use('/api/tpcycce/auth', AuthRouter);
 
-app.use('/api/coordinator',CoOrdinatorRouter)
+app.use('/api/tpcycce/coordinator',CoOrdinatorRouter)
 
-app.use("/api/subadmin",SubAdminRouter)
+app.use("/api/tpcycce/subadmin",SubAdminRouter)
 
-app.use("/api/student/",StudentRouter)
+app.use("/api/tpcycce/student/",StudentRouter)
 
-app.use("/api/campus/",CampusRouter)
+app.use("/api/tpcycce/campus/",CampusRouter)
 
-app.use("/api/attendance",AttendanceRouter)
+app.use("/api/tpcycce/attendance",AttendanceRouter)
 
-app.use("/api/skill",SkillRouter)
+app.use("/api/tpcycce/skill",SkillRouter)
 
-app.use("/api/pyq",pyqRouter)
+app.use("/api/tpcycce/pyq",pyqRouter)
 
-app.use("/api/notification",notificationRoute)
+app.use("/api/tpcycce/notification",notificationRoute)
 
-app.use("/api/employer",EmployerRouter)
+app.use("/api/tpcycce/employer",EmployerRouter)
 
-app.use("/api/certificate",CertifcateRoute)
+app.use("/api/tpcycce/certificate",CertifcateRoute)
 
-app.listen(5001, '0.0.0.0');
+// app.listen(5001, '0.0.0.0');
+
+app.listen()
 
 

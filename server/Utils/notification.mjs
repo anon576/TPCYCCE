@@ -2,9 +2,10 @@ import admin from './firebaseadmin.mjs';
 
 const sendNotification = async (token, payload) => {
   try {
-    await admin.messaging().sendToDevice(
-        token, payload
-        );
+    await admin.messaging().send({
+      token,  // The token must be part of the message object
+      ...payload // Spread the payload here to include notification and data
+    });
     console.log('Notification sent successfully');
   } catch (error) {
     console.error('Error sending notification:', error);
@@ -12,24 +13,16 @@ const sendNotification = async (token, payload) => {
 };
 
 // Example usage
-const token = 'dcMTh585RMm0e4QIL2cNfk:APA91bGmH7rs_Vk9lr1jkvO2-hHSmJew-VAv0QsoXJ31-pFJM-WSyYvLrPlGUanhReoaYJiAv0GthRJXZuBwtdFfGV7mYpYWNV5BqDNtPKuBhCc4_v3n_6Gouk4N25NKCTehrcW-6VJ-';
+// const token = 'fsmPSLNtSCWo1FwJFgN_WC:APA91bFa_0KvsTSADmX0VCoYuVYD-Y2NsoK8mSlakZOwNMNUXbs6ih4-HVVIPWSuqKiRZ89s52yJRIbCF7p0pz-9wu_Gghu0j6OofORBQj66GrOLNq3LVCSvUcHMYi_emiDySoSJD8jA'
 
-const payload = {
-  notification: {
-    title: 'Hello',
-    body: 'This is a test notification',
-  },
-  data: {
-    screen_id: '42',
-    screen: '/aptilr',
-    anotherKey: 'anotherValue'
-  },
-};
+// const payload = {
+//   notification: {
+//     title: 'Hello',
+//     body: 'This is a test notification',
+//   },
+ 
+// };
 
-// sendNotification(token,payload)
+// sendNotification(token, payload);
 
-export default sendNotification
-
-
-
-
+export default sendNotification;
