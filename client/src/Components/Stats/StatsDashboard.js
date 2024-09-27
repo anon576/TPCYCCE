@@ -1,5 +1,13 @@
 import React from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Label, Tooltip, Legend } from "recharts";
+import {
+	PieChart,
+	Pie,
+	Cell,
+	ResponsiveContainer,
+	Label,
+	Tooltip,
+	Legend,
+} from "recharts";
 
 // Sample data - replace with your actual data
 const studentData = [
@@ -109,6 +117,9 @@ const StatsDashboard = () => {
 						<DashboardCard title="Total Ongoing Campus" value="15" />
 						<DashboardCard title="Total Companies Visited" value="32" />
 						<DashboardCard title="Total Students" value="900" />
+						<button className="bg-green-600 p-4 rounded-lg shadow text-white">
+							Campus Overview
+						</button>
 					</div>
 				</div>
 
