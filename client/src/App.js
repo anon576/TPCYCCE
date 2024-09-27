@@ -51,9 +51,9 @@ import StudentPrivateRoute from "../src/Components/Student Dashboard/StudentPriv
 import Profile from "./Components/Student Dashboard/Components/Profile/Profile";
 import Forgetpassword from "./Components/LoginForms/Student/ForgetPassword";
 import AdminNav from "./Components/Nav/AdminNav";
-import AdminPrivateRoute from './Components/PrivateRoute/AdminPrivateRoute'
-import EmployerLogin from './Components/LoginForms/Employer/Login'
-import EmployerRegister from './Components/LoginForms/Employer/Register'
+import AdminPrivateRoute from "./Components/PrivateRoute/AdminPrivateRoute";
+import EmployerLogin from "./Components/LoginForms/Employer/Login";
+import EmployerRegister from "./Components/LoginForms/Employer/Register";
 import EmployerDashboard from "./Components/Employer/EmployerDashboard";
 import HomePage from "./Components/Home/HomePage";
 import EmployerPrivateRoute from "./Components/PrivateRoute/EmployerPrivateRoute";
@@ -61,19 +61,14 @@ import { EmployerRequestProvider } from "./storage/Employer/context";
 import EmployerRequestsTable from "./Components/Admin Employer/ListRequest";
 import EmployersTable from "./Components/Admin Employer/EmployerList";
 import EmployerRequests from "./Components/Admin Employer/Ed";
-
-
-
-
+import StatsDashboard from "./Components/Stats/StatsDashboard";
 
 function App() {
 	return (
 		<>
 			<Router>
 				<Routes>
-
 					<Route path="/" element={<HomePage />} />
-
 
 					{/* Admin Routes */}
 					<Route path="/admin/*" element={<AdminPrivateRoute />}>
@@ -191,16 +186,20 @@ function App() {
 							path="update_notification"
 							element={<UpdateNotification />}
 						/>
-						<Route path="employer_request" element={<EmployerRequestsTable/>}/>
+						<Route
+							path="employer_request"
+							element={<EmployerRequestsTable />}
+						/>
 
-						<Route path="employers" element={<EmployersTable/>}/>
+						<Route path="employers" element={<EmployersTable />} />
 
-						<Route path="employers/:employerID/requests" element={<EmployerRequests />} />
-
+						<Route
+							path="employers/:employerID/requests"
+							element={<EmployerRequests />}
+						/>
 
 						{/* End of Admin Routes */}
 					</Route>
-
 
 					<Route
 						path="/admin_login"
@@ -255,8 +254,6 @@ function App() {
 						}
 					/>
 
-
-
 					<Route
 						path="/new_password"
 						element={
@@ -304,8 +301,7 @@ function App() {
 						}
 					/>
 
-
-
+					<Route path="placement_statistics" element={<StatsDashboard></StatsDashboard>} />
 
 					<Route
 						path="/employer_login"
@@ -330,18 +326,16 @@ function App() {
 					/>
 					<Route path="/employer/*" element={<EmployerPrivateRoute />}>
 						<Route
-						path="employer-dashboard"
-						element={
-							<>
-								<EmployerRequestProvider>
-								<EmployerDashboard />
-								</EmployerRequestProvider>
-								
-						
-							</>
-						}
-					/></Route>
-					
+							path="employer-dashboard"
+							element={
+								<>
+									<EmployerRequestProvider>
+										<EmployerDashboard />
+									</EmployerRequestProvider>
+								</>
+							}
+						/>
+					</Route>
 				</Routes>
 			</Router>
 		</>
