@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
 
-    if (req.path.startsWith('/api/auth')) {
+    if (req.path.startsWith('/api/tpcycce/auth')) {
         // Skip JWT verification for /api/auth routes
         return next();
     }
@@ -85,8 +85,8 @@ app.use("/api/tpcycce/employer",EmployerRouter)
 
 app.use("/api/tpcycce/certificate",CertifcateRoute)
 
-// app.listen(5001, '0.0.0.0');
+app.listen(5001, '0.0.0.0');
 
-app.listen()
+// app.listen()
 
 
