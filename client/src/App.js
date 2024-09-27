@@ -62,6 +62,7 @@ import EmployerRequestsTable from "./Components/Admin Employer/ListRequest";
 import EmployersTable from "./Components/Admin Employer/EmployerList";
 import EmployerRequests from "./Components/Admin Employer/Ed";
 import StatsDashboard from "./Components/Stats/StatsDashboard";
+import CampusOverview from "./Components/Stats/CampusOverview";
 
 function App() {
 	return (
@@ -302,6 +303,7 @@ function App() {
 					/>
 
 					<Route path="placement_statistics" element={<StatsDashboard></StatsDashboard>} />
+					<Route path="campus-overview" element={<CampusOverview></CampusOverview>} />
 
 					<Route
 						path="/employer_login"

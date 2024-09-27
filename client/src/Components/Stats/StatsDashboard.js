@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
 	PieChart,
 	Pie,
@@ -117,9 +118,11 @@ const StatsDashboard = () => {
 						<DashboardCard title="Total Ongoing Campus" value="15" />
 						<DashboardCard title="Total Companies Visited" value="32" />
 						<DashboardCard title="Total Students" value="900" />
-						<button className="bg-green-600 p-4 rounded-lg shadow text-white">
-							Campus Overview
-						</button>
+						<Link to="/campus-overview">
+							<button className="bg-green-600 p-4 my-4 rounded-lg shadow text-white">
+								Campus Overview
+							</button>
+						</Link>
 					</div>
 				</div>
 
