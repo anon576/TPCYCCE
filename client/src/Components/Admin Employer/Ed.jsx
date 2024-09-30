@@ -75,8 +75,8 @@ const EmployerRequests = () => {
                         <th>CGPA</th>
                         <th>Branch</th>
                         <th>Has Skill Certificate</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>Job Count</th>
+                      
                     </tr>
                 </thead>
                 <tbody>
@@ -88,16 +88,8 @@ const EmployerRequests = () => {
                             <td>{request.cgpa}</td>
                             <td>{request.branch}</td>
                             <td>{request.hasSkillCertificate}</td>
-                            <td>{request.status}</td>
-                            <td>
-                                {request.status !== 'Approved' ? (
-                                    <button onClick={() => handleApproveClick(request.employerRequestID)}>
-                                        Approve
-                                    </button>
-                                ) : (
-                                    <span>Approved</span>
-                                )}
-                            </td>
+                            <td>{request.jobCount}</td>
+                            
                         </tr>
                     ))}
                 </tbody>

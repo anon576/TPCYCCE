@@ -17,8 +17,13 @@ const EmployerRegister = () => {
     // Effect to check if token exists in localStorage and redirect if it does
     useEffect(() => {
         const token = localStorage.getItem('token');
+
         if (token) {
-            navigate('/student-dashboard'); // Redirect to student dashboard if token exists
+            const role = localStorage.getItem("role");
+            if(role ==  "Employer"){
+                navigate('/employer-dashboard');
+            }
+            // Redirect to student dashboard if token exists
         }
     }, [navigate]);
 

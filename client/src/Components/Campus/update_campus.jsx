@@ -15,10 +15,11 @@ function UpdateCampus() {
         Message: '',
         pack: '',
         Location: '',
+        status: 'Pending',
         file: null,
         rounds: []
     });
-    const [loading, setLoading] = useState(true); // Add loading state
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchCampusDetails = async () => {
@@ -36,15 +37,16 @@ function UpdateCampus() {
                         Message: campus.Message,
                         pack: campus.package,
                         Location: campus.Location,
+                        status: campus.status || 'Pending',
                     });
-                    setLoading(false); // Set loading to false after fetching campus details
+                    setLoading(false);
                 } else {
                     setErrorMessage("Failed to fetch campus details");
-                    setLoading(false); // Set loading to false in case of error
+                    setLoading(false);
                 }
             } catch (error) {
                 setErrorMessage("An error occurred while fetching campus details");
-                setLoading(false); // Set loading to false in case of error
+                setLoading(false);
             }
         };
 
@@ -62,17 +64,25 @@ function UpdateCampus() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true); // Set loading to true when form is submitted
+        setLoading(true);
+
         try {
-            const response = await axios.put(BACKEND_URL + `/campus/update/${campusID}`, {
-                'campusName': formData.campusName,
-                "Message": formData.Message,
-                "pack": formData.pack,
-                "Location": formData.Location
-            },{
+            const formDataToSend = new FormData();
+            formDataToSend.append('campusName', formData.campusName);
+            formDataToSend.append('Message', formData.Message);
+            formDataToSend.append('pack', formData.pack);
+            formDataToSend.append('Location', formData.Location);
+            formDataToSend.append('status', formData.status);
+
+            // If status is 'Completed', append the file to the FormData
+            if (formData.status === "Complated" && formData.file) {
+                formDataToSend.append('file', formData.file);
+            }
+
+            const response = await axios.put(BACKEND_URL + `/campus/update/${campusID}`, formDataToSend, {
                 headers: {
                     'Authorization': token,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data', // Use multipart/form-data for file upload
                 },
             });
 
@@ -95,7 +105,7 @@ function UpdateCampus() {
                 setSuccessMessage('');
             }
         } finally {
-            setLoading(false); // Set loading to false after form submission completes
+            setLoading(false);
         }
     };
 
@@ -107,16 +117,16 @@ function UpdateCampus() {
         setSuccessMessage('');
     };
 
-        return (
-            <>
-                <div className="center vs1">
-                    {loading ? ( // Display loader while loading
-                        <Loader />
-                    ) : (
-                        <form className="form" onSubmit={handleSubmit}>
+    return (
+        <>
+            <div className="center vs1">
+                {loading ? (
+                    <Loader />
+                ) : (
+                    <form className="form" onSubmit={handleSubmit}>
                         <p className="title">Update Campus</p>
                         <p className="message">Update campus details in the form.</p>
-    
+
                         <label>
                             <input
                                 className="input"
@@ -161,27 +171,53 @@ function UpdateCampus() {
                             />
                             <span>Location</span>
                         </label>
-                      
+                        <label>
+                            <select
+                                className="input"
+                                name="status"
+                                value={formData.status}
+                                onChange={handleInputChange}
+                            >
+                                <option value="Pending">Ongoing</option>
+                                <option value="Complated">Completed</option>
+                            </select>
+                            <span>Status</span>
+                        </label>
+
+                        {/* Conditionally render file input for Completed status */}
+                        {formData.status === "Complated" && (
+                            <label>
+                                <input
+                                    className="input"
+                                    type="file"
+                                    name="file"
+                                    accept=".xlsx"
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                                <span>Upload Completion XLSX</span>
+                            </label>
+                        )}
+
                         <button className="submit">Submit</button>
                     </form>
-                      )}
-                    {errorMessage && (
-                        <div className="popup error-popup">
-                            <span className="close-btn" onClick={handleCloseError}>&times;</span>
-                            <div className="popup-message">{errorMessage}</div>
-                        </div>
-                    )}
-                    {successMessage && (
-                        <div className="popup success-popup">
-                            <span className="close-btn" onClick={handleCloseSuccess}>&times;</span>
-                            <div className="popup-message">{successMessage}</div>
-                        </div>
-                    )}
-                </div>
-              
-            </>
-        );
-  
+                )}
+
+                {errorMessage && (
+                    <div className="popup error-popup">
+                        <span className="close-btn" onClick={handleCloseError}>&times;</span>
+                        <div className="popup-message">{errorMessage}</div>
+                    </div>
+                )}
+                {successMessage && (
+                    <div className="popup success-popup">
+                        <span className="close-btn" onClick={handleCloseSuccess}>&times;</span>
+                        <div className="popup-message">{successMessage}</div>
+                    </div>
+                )}
+            </div>
+        </>
+    );
 }
 
 export default UpdateCampus;

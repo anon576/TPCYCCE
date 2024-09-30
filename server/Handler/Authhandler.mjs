@@ -263,10 +263,10 @@ class AuthHandler {
 
             // 3. Insert the new employer details into the database
             const insertEmployerQuery = `
-            INSERT INTO Employer (employerName, employerEmail, employerPassword)
-            VALUES (?, ?, ?)
+            INSERT INTO Employer (employerName, employerEmail, employerPassword,status)
+            VALUES (?, ?, ?, ?)
         `;
-            await pool.query(insertEmployerQuery, [employerName, employerEmail, employerPassword]);
+            await pool.query(insertEmployerQuery, [employerName, employerEmail, employerPassword,"Pending"]);
             
             // 4. Respond with success status and message
             return res.status(201).json({
@@ -286,18 +286,27 @@ class AuthHandler {
     static employerLogin = async (req, res) => {
         try {
             const { email, password } = req.body;
-
+    
             const [userRows] = await pool.query('SELECT * FROM Employer WHERE employerEmail = ?', [email]);
-
+    
             if (userRows.length === 0) {
                 return res.status(404).json({
                     success: false,
                     message: "User not found",
                 });
             }
-
+    
             const user = userRows[0];
-            console.log(user)
+    
+            // Check if the employer status is pending
+            if (user.status === "Pending") {
+                return res.status(403).json({
+                    success: false,
+                    message: "Approval status is still pending.",
+                });
+            }
+    
+            console.log(user);
             if (user.employerPassword !== password) {
                 return res.status(401).json({
                     success: false,
@@ -307,13 +316,13 @@ class AuthHandler {
                 const payload = {
                     "id": user.employerID,
                     "role": "Employer"
-                }
+                };
                 const token = JwtOperation.generateToken(payload);
                 return res.status(200).json({
                     token: token,
                     success: true,
                     user: user,
-                    role:"Employer"
+                    role: "Employer"
                 });
             }
         } catch (error) {
@@ -324,6 +333,7 @@ class AuthHandler {
             });
         }
     }
+    
 
     static sendOtp = async(req,res)=>{
         try {

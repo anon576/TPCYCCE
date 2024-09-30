@@ -39,44 +39,74 @@ class EmploerHandler{
 
       static fetchRequest = async (req, res) => {
         try {
-          // Get employerID from request parameters or body (depending on your API design)
-          const employerID = req.params.employerID
+            // Get employerID from request parameters
+            const employerID = req.params.employerID;
     
-          // Check if employerID exists
-          if (!employerID) {
-            return res.status(400).json({ message: 'Employer ID is required' });
-          }
+            // Check if employerID exists
+            if (!employerID) {
+                return res.status(400).json({ message: 'Employer ID is required' });
+            }
     
-          // Query the database for requests associated with the employerID
-          const query = 'SELECT * FROM EmployerRequest WHERE employerID = ?';
-          const [results] = await pool.query(query, [employerID]);
+            // Query the database for requests associated with the employerID
+            const query = 'SELECT * FROM EmployerRequest WHERE employerID = ?';
+            const [results] = await pool.query(query, [employerID]);
     
-          // Check if requests exist
-          if (results.length === 0) {
-            return res.status(404).json({ message: 'No requests found for this employer' });
-          }
+            // Check if requests exist
+            if (results.length === 0) {
+                return res.status(404).json({ message: 'No requests found for this employer' });
+            }
     
-          // Return the requests to the client
-         
-          res.status(200).json(results);
+            // Create an array to hold the requests with job counts
+            const requestsWithJobCount = [];
+    
+            // Fetch job counts for each employer request
+            for (const request of results) {
+                const jobCountQuery = 'SELECT COUNT(*) AS jobCount FROM Jobs WHERE employerRequestID = ?';
+                const [jobCountResult] = await pool.query(jobCountQuery, [request.employerRequestID]);
+                const jobCount = jobCountResult[0]?.jobCount || 0; // Default to 0 if no jobs found
+    
+                // Add the job count to the request object
+                requestsWithJobCount.push({
+                    ...request,
+                    jobCount,
+                });
+            }
+    
+            // Return the requests with jobCount to the client
+            res.status(200).json(requestsWithJobCount);
         } catch (error) {
-          // Handle any errors that occur during the request
-          console.error('Error fetching employer requests:', error);
-          res.status(500).json({ message: 'Internal server error' });
+            // Handle any errors that occur during the request
+            console.error('Error fetching employer requests:', error);
+            res.status(500).json({ message: 'Internal server error' });
         }
-      };
+    };
+    
 
       static fetchAllRequest = async (req, res) => {
         try {
-            // SQL query to fetch all employer requests
-            const query = 'SELECT * FROM EmployerRequest';
+            const query = `
+                SELECT 
+                    er.*, 
+                    COALESCE(j.jobCount, 0) AS jobCount 
+                FROM 
+                    EmployerRequest er
+                LEFT JOIN 
+                    (SELECT employerRequestID, COUNT(*) AS jobCount 
+                     FROM Jobs 
+                     GROUP BY employerRequestID) j 
+                ON 
+                    er.employerRequestID = j.employerRequestID
+            `;
+            
             const [rows] = await pool.query(query);
+            
             console.log(rows)
             // Check if data exists
             if (rows.length === 0) {
                 return res.status(404).json({ message: 'No employer requests found' });
             }
-            
+
+    
             // Send the fetched data as JSON response
             return res.status(200).json(rows);
         } catch (error) {
@@ -84,11 +114,12 @@ class EmploerHandler{
             return res.status(500).json({ message: 'Failed to fetch employer requests' });
         }
     };
+    
 
     static fetchEmployer = async (req, res) => {
       try {
           // SQL query to fetch all employers
-          const query = 'SELECT employerID, employerName, employerEmail FROM Employer';
+          const query = 'SELECT * FROM Employer';
           const [rows] = await pool.query(query);
           
           // Check if there are employers in the database
@@ -212,6 +243,34 @@ class EmploerHandler{
       res.status(500).json({ message: 'Error generating Excel file.' });
     }
   };
+
+  static approveEmployer = async (req, res) => {
+    const { employerID } = req.params; // Get employerID from request parameters
+
+    try {
+        // Check if the employer exists and is currently in 'Pending' status
+        const [existingEmployer] = await pool.query(`
+            SELECT * FROM Employer WHERE employerID = ? AND status = 'Pending'
+        `, [employerID]);
+
+        if (existingEmployer.length === 0) {
+            return res.status(404).json({ message: 'Employer not found or already approved.' });
+        }
+
+        // Update the employer's status to 'Approved'
+        await pool.query(`
+            UPDATE Employer 
+            SET status = 'Approved' 
+            WHERE employerID = ?
+        `, [employerID]);
+
+        res.status(200).json({ message: 'Employer approved successfully.' });
+    } catch (error) {
+        console.error('Error approving employer:', error);
+        res.status(500).json({ message: 'Error approving employer', error: error.message });
+    }
+};
+
 }
 
 

@@ -75,7 +75,7 @@ const EmployerRequestsTable = () => {
                             <td>{request.cgpa}</td>
                             <td>{request.branch}</td>
                             <td>{request.hasSkillCertificate}</td>
-                            <td>{request.status}</td>
+                            <td>{request.jobCount}</td>
                             <td>
                                 <button onClick={() => handleUpdateClick(request)}>Update</button>
                                 <br />

@@ -63,6 +63,10 @@ import EmployersTable from "./Components/Admin Employer/EmployerList";
 import EmployerRequests from "./Components/Admin Employer/Ed";
 import StatsDashboard from "./Components/Stats/StatsDashboard";
 import CampusOverview from "./Components/Stats/CampusOverview";
+import CampusBranchOverview from "./Components/Stats/BranchWisePlacement/BranchWisePlacement";
+import AllCampusOverview from "./Components/Stats/Campus/AllCampusOverview";
+import CampusBranchWiseStats from "./Components/Stats/Campus/CampusBranchWiseStats";
+import EmployerJobRequests from "./Components/Stats/Jobs/EmployeJobRequest";
 
 function App() {
 	return (
@@ -73,8 +77,22 @@ function App() {
 
 					{/* Admin Routes */}
 					<Route path="/admin/*" element={<AdminPrivateRoute />}>
+
+					<Route path="" element={<StatsDashboard></StatsDashboard>} />
+
+					<Route path="campus-overview" element={<CampusOverview></CampusOverview>} />
+
+
+					<Route path="jobs" element={<EmployerJobRequests></EmployerJobRequests>} />
+
+
+					<Route path="campus_stats/:campusId" element={<CampusBranchWiseStats></CampusBranchWiseStats>} />
+
+					<Route path="all_campus_overview" element={<AllCampusOverview></AllCampusOverview>} />
+
+					
 						<Route
-							path=""
+							path="campus"
 							element={
 								<>
 									<Home />
@@ -302,8 +320,6 @@ function App() {
 						}
 					/>
 
-					<Route path="placement_statistics" element={<StatsDashboard></StatsDashboard>} />
-					<Route path="campus-overview" element={<CampusOverview></CampusOverview>} />
 
 					<Route
 						path="/employer_login"

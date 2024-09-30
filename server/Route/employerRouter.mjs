@@ -14,4 +14,6 @@ EmployerRouter.get("/employers",EmploerHandler.fetchEmployer)
 EmployerRouter.put("/update_request/:requestID",EmploerHandler.updateStatus)
 
 EmployerRouter.get("/download_list/:employerRequestID",EmploerHandler.downloadStudent)
+
+EmployerRouter.put("/approve/:employerID",EmploerHandler.approveEmployer)
 export default EmployerRouter;

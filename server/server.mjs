@@ -13,6 +13,7 @@ import pyqRouter from './Route/pyqRouter.mjs';
 import notificationRoute from './Route/notificationRouter.mjs';
 import EmployerRouter from './Route/employerRouter.mjs';
 import CertifcateRoute from './Route/certificateRouter.mjs';
+import statsRouter from './Route/statsRouter.mjs';
 
 dotenv.config();
 
@@ -37,7 +38,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
 
-    if (req.path.startsWith('/api/tpcycce/auth')) {
+    if (req.path.startsWith('/api/tpcycce/stats')) {
         // Skip JWT verification for /api/auth routes
         return next();
     }
@@ -84,6 +85,8 @@ app.use("/api/tpcycce/notification",notificationRoute)
 app.use("/api/tpcycce/employer",EmployerRouter)
 
 app.use("/api/tpcycce/certificate",CertifcateRoute)
+
+app.use("/api/tpcycce/stats",statsRouter)
 
 app.listen(5001, '0.0.0.0');
 

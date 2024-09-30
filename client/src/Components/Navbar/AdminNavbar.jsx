@@ -89,7 +89,7 @@ function Navbar() {
   }
 
 
-  const token = localStorage.getItem("token");
+
   const role = localStorage.getItem("role");
 
 
@@ -146,6 +146,9 @@ function Navbar() {
                   <ul className="js-sub-menu sub-menu">
                     <li>
                       <Link to="/admin/campus_create">CREATE</Link>
+                    </li>
+                    <li>
+                      <Link to="/admin/campus">VIEW</Link>
                     </li>
                     <li>
                       <Link to="/admin/add_study_material">PREP MATERIAL</Link>

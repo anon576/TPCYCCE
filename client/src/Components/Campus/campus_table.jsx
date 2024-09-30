@@ -24,6 +24,10 @@ function CampusTable({ campuses }) {
         navigate(`/admin/round`, { state: { campusID } });
     };
 
+    const handleUpdateClick = (campusID) => {
+        navigate(`/admin/update_campus`, { state: { campusID } });
+    };
+
     return (
         <table className="ctble">
             <thead>
@@ -33,6 +37,7 @@ function CampusTable({ campuses }) {
                     <th>Date</th>
                     <th>Package</th>
                     <th>View</th>
+                    <th>Update</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +48,8 @@ function CampusTable({ campuses }) {
                         <td>{convertDateFormat(campus.date)}</td>
                         <td>{campus.package}</td>
                         <td><button onClick={() => handleRoundClick(campus.campusID)}>Rounds</button></td>
+                        <td><button onClick={() => handleUpdateClick(campus.campusID)}>Update</button></td>
+
                     </tr>
                 ))}
             </tbody>

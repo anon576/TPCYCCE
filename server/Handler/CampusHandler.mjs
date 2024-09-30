@@ -3,11 +3,15 @@ import { pool } from '../Database/database.mjs'
 import xlsx from 'xlsx'
 import { BRANCHS } from '../Utils/constant.mjs'
 import sendNotification from '../Utils/notification.mjs'
+import ExcelJS from 'exceljs'
+import path from 'path'
+import fs from 'fs'
+
 class CampusHandler {
 
     static CDB = new Database(
         "Campus",
-        ['CampusName', 'Message', 'package', 'Location', 'Date']
+        ['CampusName', 'Message', 'package', 'Location', 'Date', 'Status','eligibleStudents']
     )
 
     static RDB = new Database(
@@ -45,9 +49,9 @@ class CampusHandler {
                 console.log(existingCampuses);
                 return res.status(409).json({ message: 'Campus with the same name already exists' });
             }
-    
-            // Create the campus
-            const campusID = await CampusHandler.CDB.create('(?, ?, ?, ?,?)', [campusName, Message, pack, Location, rounds[0].roundDate]);
+
+            const campus_status = "Pending";
+            const campusID = await CampusHandler.CDB.create('(?, ?, ?, ?,?,?,?)', [campusName, Message, pack, Location, rounds[0].roundDate,campus_status,collegeIds.length]);
     
             // Check for existing students
             const a = collegeIds.map(() => '?').join(',');
@@ -73,9 +77,7 @@ class CampusHandler {
                             const existingAttendance = await CampusHandler.ADB.read('`StudentID` = ? AND `RoundID` = ?', [studentID, roundID]);
                             if (existingAttendance.length === 0) {
                                 await CampusHandler.ADB.create('(?, ?, ?, ?)', [studentID, roundID, 'Absent', round.roundDate]);
-    
-                                // Fetch the FCM token for the student
-                                
+                            
                                 const [s] = await pool.query('SELECT FCMToken FROM Student WHERE id = ?', [studentID]);
                                 const fcmToken = s[0]?.FCMToken;  // Adjust based on the actual column name in your database
     
@@ -115,7 +117,9 @@ class CampusHandler {
     static read = async (req, res) => {
         try {
             // Fetch all campuses
-            const campuses = await this.CDB.read();
+            const [campuses] = await pool.query("SELECT * FROM Campus WHERE status = 'Pending'");
+
+            console.log(campuses)
             if (campuses.length === 0) {
             
                 return res.status(404).json({ message: 'No campuses found' });
@@ -185,33 +189,128 @@ class CampusHandler {
     static update = async (req, res) => {
         try {
             const { campusID } = req.params;
-            console.log(req.body)
-            const { campusName, Message, pack, Location } = req.body;
-            console.log('Received campusID:', campusID);
-            console.log('Received campusName:', campusName);
-            console.log('Received Message:', Message);
-            console.log('Received pack:', pack);
-            console.log('Received Location:', Location);
-            // Check if the campus with the same name exists
-            const [existingCampuses] = await CampusHandler.CDB.read('`CampusName` = ? AND `CampusID` != ?', [campusName, campusID]);
-
-            if (existingCampuses) {
-                return res.status(409).json({ message: 'Campus with the same name already exists' });
+            const { campusName, Message, pack, Location, status } = req.body;
+            console.log('Campus Name:', campusName);
+            console.log('Message:', Message);
+    
+            // Start a transaction to ensure data integrity
+            const connection = await pool.getConnection();
+            try {
+                await connection.beginTransaction();
+    
+                // Check if the campus with the same name exists (excluding current campus)
+                const [existingCampuses] = await connection.query(
+                    'SELECT * FROM Campus WHERE CampusName = ? AND CampusID != ?',
+                    [campusName, campusID]
+                );
+    
+                if (existingCampuses.length > 0) {
+                    await connection.rollback();
+                    return res.status(409).json({ message: 'Campus with the same name already exists' });
+                }
+    
+                // Update Campus details
+                const updateQuery = `
+                    UPDATE Campus
+                    SET CampusName = ?, Message = ?, package = ?, Location = ?, status = ?
+                    WHERE CampusID = ?`;
+                const updateValues = [campusName, Message, pack, Location, status, campusID];
+                const [updateResult] = await connection.query(updateQuery, updateValues);
+    
+                if (updateResult.affectedRows === 0) {
+                    await connection.rollback();
+                    return res.status(404).json({ message: 'Campus not found' });
+                }
+    
+                // If status is 'Completed', process the XLSX file
+                if (status === 'Complated') {
+                    if (!req.file) {
+                        await connection.rollback();
+                        return res.status(400).json({ message: 'XLSX file is required when status is Completed' });
+                    }
+    
+                    // Read the XLSX file from buffer using ExcelJS
+                    const workbook = new ExcelJS.Workbook();
+                    await workbook.xlsx.load(req.file.buffer);
+                    const worksheet = workbook.worksheets[0]; // Assuming data is in the first sheet
+    
+                    // Find the column index for 'College ID'
+                    const headerRow = worksheet.getRow(1);
+                    let collegeIdCol = null;
+                    headerRow.eachCell((cell, colNumber) => {
+                        if (cell.value && cell.value.toString().trim().toLowerCase() === 'college id') {
+                            collegeIdCol = colNumber;
+                        }
+                    });
+    
+                    if (!collegeIdCol) {
+                        await connection.rollback();
+                        return res.status(400).json({ message: 'College ID column not found in the XLSX file' });
+                    }
+    
+                    // Iterate through the rows and collect College IDs
+                    const collegeIds = [];
+                    worksheet.eachRow((row, rowNumber) => {
+                        if (rowNumber === 1) return; // Skip header row
+                        const collegeId = row.getCell(collegeIdCol).value;
+                        if (collegeId !== null && collegeId !== undefined && !isNaN(collegeId)) {
+                            collegeIds.push(collegeId);
+                        }
+                    });
+    
+                    if (collegeIds.length === 0) {
+                        await connection.rollback();
+                        return res.status(400).json({ message: 'No valid College IDs found in the XLSX file' });
+                    }
+    
+                    // Fetch Student IDs corresponding to the College IDs
+                    const [students] = await connection.query(
+                        'SELECT id FROM Student WHERE `College ID` IN (?)',
+                        [collegeIds]
+                    );
+    
+                    if (students.length === 0) {
+                        await connection.rollback();
+                        return res.status(400).json({ message: 'No students found for the provided College IDs' });
+                    }
+    
+                    // Prepare data for insertion into Placement table
+                    const placementData = students.map(student => [campusID, student.id]);
+    
+                    // Insert into Placement table
+                    const insertPlacementQuery = 'INSERT INTO Placement (CampusID, StudentID) VALUES ?';
+                    await connection.query(insertPlacementQuery, [placementData]);
+    
+                    // Optionally, update Campus.eligibleStudents and placedStudents
+                    const eligibleStudents = collegeIds.length;
+                    const placedStudents = students.length;
+    
+                    const updateCampusStatsQuery = `
+                        UPDATE Campus
+                        SET eligibleStudents = ?, placedStudents = ?
+                        WHERE CampusID = ?`;
+                    await connection.query(updateCampusStatsQuery, [eligibleStudents, placedStudents, campusID]);
+                }
+    
+                // Commit the transaction
+                await connection.commit();
+    
+                res.status(200).json({
+                    message: 'Campus updated successfully',
+                    studentsAdded: status === 'Completed' ? students.length : 0,
+                });
+            } catch (transactionError) {
+                // Rollback the transaction in case of error
+                await connection.rollback();
+                console.error('Transaction error:', transactionError);
+                res.status(500).json({ message: 'Error updating campus', error: transactionError.message });
+            } finally {
+                // Release the connection back to the pool
+                connection.release();
             }
-
-            const query = `
-            UPDATE \`Campus\`
-            SET \`CampusName\` = ?, \`Message\` = ?, \`package\` = ?, \`Location\` = ?
-            WHERE \`CampusID\` = ?`;
-            const values = [campusName, Message, pack, Location, campusID];
-
-            const [result] = await pool.query(query, values);
-
-
-            res.status(200).json({ message: 'Campus updated successfully' });
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error updating campus', error });
+            console.error('Error updating campus:', error);
+            res.status(500).json({ message: 'Error updating campus', error: error.message });
         }
     };
 

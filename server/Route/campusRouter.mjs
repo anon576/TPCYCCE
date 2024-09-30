@@ -2,6 +2,7 @@ import express from 'express'
 import CampusHandler from '../Handler/CampusHandler.mjs'
 import multer from 'multer'
 
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -14,7 +15,7 @@ CampusRouter.get("/read", CampusHandler.read);
 
 CampusRouter.get("/:campusID",CampusHandler.getCampusDetails)
 
-CampusRouter.put("/update/:campusID",CampusHandler.update)
+CampusRouter.put("/update/:campusID",upload.single('file'),CampusHandler.update)
 
 CampusRouter.get("/round_att/:roundID",CampusHandler.readRound)
 
