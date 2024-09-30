@@ -32,13 +32,40 @@ const CampusBranchWiseStats = () => {
         fetchBranchWisePlacement();
     }, [campusId]);
 
+    const downloadBranchWisePlacements = async (branchName) => {
+        try {
+            console.log(branchName)
+            const response = await axios.get(`${BACKEND_URL}/stats/campus_branch_wise_download/${branchName}/${campusId}`, {
+                responseType: 'blob', // Important to specify the response type
+            });
+
+            // Create a URL for the downloaded file and trigger download
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'placed_students.xlsx'); // File name to download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }
+    };
+
     // Prepare data for TableSection
     const tableData = placementData.map(item => ({
         Branch: item.Branch,
         'Total Students': item['Total Students'],
         'Placed Students': item['Placed Students'],
         'Pending': item['Pending'],
-        'Download': <Link to={item.Download}>Download</Link>
+        'Download': (
+            <button 
+                onClick={() => downloadBranchWisePlacements(item.Branch)} 
+                className="text-blue-500 hover:underline"
+            >
+                Download
+            </button>
+        ),
     }));
 
     const headers = ["Branch", "Total Students", "Placed Students", "Pending", "Download"];

@@ -1,4 +1,5 @@
 import { pool } from '../Database/database.mjs'
+import xlsx from 'xlsx'
 
 class StatsHandler {
     static statData = async (req, res) => {
@@ -103,13 +104,69 @@ class StatsHandler {
                 'Pending': row.totalStudents - row.placedStudents, // Students still pending placement
                 'Download': `/api/admin/download/placement-report/${encodeURIComponent(row.Branch)}` // Download link
             }));
-
+           
             res.status(200).json(result);
         } catch (error) {
             console.error('Error fetching branch-wise placement:', error);
             res.status(500).json({ message: 'Error fetching branch-wise placement', error: error.message });
         }
     };
+
+    static branchWisePlacementDownload = async (req, res) => {
+        try {
+            const branchName = req.params.branchName; // Assuming the branch name is sent as a URL parameter
+            console.log(branchName)
+            // Check if branchName exists
+            if (!branchName) {
+                return res.status(400).json({ message: 'Branch name is required' });
+            }
+    
+            const query = `
+            SELECT 
+                s.id AS studentRegNo,
+                s.\`Name of Student\` AS studentName,
+                c.CampusName AS companyName
+            FROM 
+                Student s
+            JOIN 
+                Placement p ON s.id = p.StudentID
+            JOIN 
+                Campus c ON p.CampusID = c.CampusID
+            WHERE 
+                s.Branch = ? AND c.status = 'Complated';
+            `;
+            
+            const [students] = await pool.query(query, [branchName]);
+            console.log(students)
+            // Check if there are any placed students from that branch
+            if (students.length === 0) {
+                return res.status(404).json({ message: 'No placed students found for this branch' });
+            }
+           
+            // Create a new workbook and add the students' data to a worksheet
+            const workbook = xlsx.utils.book_new();
+            const worksheetData = [
+                ['Registration No', 'Name of Student', 'Company Name'], // Header Row
+                ...students.map(student => [student.studentRegNo, student.studentName, student.companyName])
+            ];
+            const worksheet = xlsx.utils.aoa_to_sheet(worksheetData);
+            xlsx.utils.book_append_sheet(workbook, worksheet, 'Placed Students');
+            console.log(worksheet)
+            // Generate buffer and send as a response
+            const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+            
+            // Set response headers for file download
+            res.setHeader('Content-Disposition', 'attachment; filename=placed_students.xlsx');
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            
+            // Send the Excel file as a response
+            res.send(excelBuffer);
+        } catch (error) {
+            console.error('Error generating Excel file:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    };
+    
 
 
     static complateCampus = async (req, res) => {
@@ -163,6 +220,62 @@ class StatsHandler {
         }
     };
 
+
+    static campusBranchWiseDownload = async (req, res) => {
+        try {
+            const { branchName, campusId } = req.params; // Assuming branch name and campus ID are sent as URL parameters
+        
+            // Validate input
+            if (!branchName || !campusId) {
+                return res.status(400).json({ message: 'Branch name and campus ID are required' });
+            }
+    
+            // SQL query to fetch placed students for the specified branch and campus
+            const query = `
+                SELECT 
+                    s.id AS studentRegNo,
+                    s.\`Name of Student\` AS studentName,
+                    c.CampusName AS companyName
+                FROM 
+                    Student s
+                JOIN 
+                    Placement p ON s.id = p.StudentID
+                JOIN 
+                    Campus c ON p.CampusID = c.CampusID
+                WHERE 
+                    s.Branch = ? AND c.CampusID = ? AND c.status = 'Complated';
+            `;
+    
+            const [students] = await pool.query(query, [branchName, campusId]);
+    
+            // Check if there are any placed students
+            if (students.length === 0) {
+                return res.status(404).json({ message: 'No placed students found for this branch and campus' });
+            }
+    
+            // Create a new workbook and add the students' data to a worksheet
+            const workbook = xlsx.utils.book_new();
+            const worksheetData = [
+                ['Registration No', 'Name of Student', 'Company Name'], // Header Row
+                ...students.map(student => [student.studentRegNo, student.studentName, student.companyName])
+            ];
+            const worksheet = xlsx.utils.aoa_to_sheet(worksheetData);
+            xlsx.utils.book_append_sheet(workbook, worksheet, 'Placed Students');
+    
+            // Generate buffer and send as a response
+            const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+            
+            // Set response headers for file download
+            res.setHeader('Content-Disposition', 'attachment; filename=placed_students.xlsx');
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            
+            // Send the Excel file as a response
+            res.send(excelBuffer);
+        } catch (error) {
+            console.error('Error generating Excel file:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    };
 
 
 
