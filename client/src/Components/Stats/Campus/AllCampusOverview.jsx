@@ -29,7 +29,7 @@ const AllCampusOverview = () => {
 
     return (
         <div className="bg-gray-100">
-            <div className="p-4 w-[95%] mx-auto min-h-screen">
+            <div className="p-4 w-[95%] mx-auto ">
                 <Link to="/admin" className="px-3 bg-green-700 text-white rounded-lg">Go Back</Link>
                 <h1 className="text-2xl font-bold my-6">Campus Overview</h1>
                 <TableSection

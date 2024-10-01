@@ -103,9 +103,12 @@ const CampusBranchOverview = () => {
                 Download
             </button>
         ),
+        "View Stats":(
+            <Link to="/admin/branch-stats">View Stats</Link>
+        )
     }));
 
-    const headers = ["Branch", "Total Students", "Placed Students", "Pending", "Download"];
+    const headers = ["Branch", "Total Students", "Placed Students", "Pending", "Download","Stats"];
 
     if (loading) {
         return (
@@ -129,7 +132,7 @@ const CampusBranchOverview = () => {
 
     return (
         <div className="bg-gray-100">
-            <div className="p-4 w-[95%] mx-auto min-h-screen">
+            <div className="p-4 w-[95%] mx-auto ">
                 <h1 className="text-2xl font-bold my-6">Branch Wise Placement</h1>
                 <TableSection
                     title="Placement Drive Statistics"

@@ -83,7 +83,7 @@ function App() {
 
 					<Route path="campus-overview" element={<CampusOverview></CampusOverview>} />
 
-
+					<Route path="branch-stats" element={<BranchStats></BranchStats>}/>
 					<Route path="jobs" element={<EmployerJobRequests></EmployerJobRequests>} />
 
 
@@ -355,7 +355,7 @@ function App() {
 							}
 						/>
 					</Route>
-					<Route path="/branch-stats" element={<BranchStats></BranchStats>}/>
+					
 				</Routes>
 			</Router>
 		</>
