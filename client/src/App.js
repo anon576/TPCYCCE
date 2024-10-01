@@ -67,6 +67,7 @@ import CampusBranchOverview from "./Components/Stats/BranchWisePlacement/BranchW
 import AllCampusOverview from "./Components/Stats/Campus/AllCampusOverview";
 import CampusBranchWiseStats from "./Components/Stats/Campus/CampusBranchWiseStats";
 import EmployerJobRequests from "./Components/Stats/Jobs/EmployeJobRequest";
+import BranchStats from "./Components/Stats/BranchStats/BranchStats";
 
 function App() {
 	return (
@@ -354,6 +355,7 @@ function App() {
 							}
 						/>
 					</Route>
+					<Route path="/branch-stats" element={<BranchStats></BranchStats>}/>
 				</Routes>
 			</Router>
 		</>
