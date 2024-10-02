@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from "../../../constant";
 
 const TableSection = ({ title, data, headers, expandedData }) => {
@@ -46,6 +46,8 @@ const CampusBranchOverview = () => {
     const [placementData, setPlacementData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchBranchWisePlacement = async () => {
@@ -53,10 +55,11 @@ const CampusBranchOverview = () => {
                 const token = localStorage.getItem("token"); // If your API requires authentication
                 const response = await axios.get(BACKEND_URL + "/stats/branch-wise-placement", {
                     headers: {
-                        'Authorization': `Bearer ${token}`, // Adjust based on your auth mechanism
+                        'Authorization': `${token}`, // Adjust based on your auth mechanism
                         'Content-Type': 'application/json',
                     },
                 });
+             
                 setPlacementData(response.data);
                 setLoading(false);
             } catch (err) {
@@ -71,12 +74,14 @@ const CampusBranchOverview = () => {
 
     const downloadBranchWisePlacements = async (branchName) => {
         try {
-            console.log(branchName)
+            const token = localStorage.getItem("token");
             const response = await axios.get(`${BACKEND_URL}/stats/branch_wise_download/${branchName}`, {
-                responseType: 'blob', // Important to specify the response type
+                headers: {
+                    'Authorization': `${token}`, 
+                    'Content-Type': 'application/json',
+                },
+                responseType: 'blob',
             });
-
-            // Create a URL for the downloaded file and trigger download
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
@@ -88,12 +93,16 @@ const CampusBranchOverview = () => {
             console.error('Error downloading file:', error);
         }
     };
-
+    
+    const handleClick = (branch) => {
+        navigate(`/admin/branch-stats`, { state: { branchName:branch } });
+    };
     // Prepare data for TableSection
     const tableData = placementData.map(item => ({
         Branch: item.Branch,
         'Total Students': item['Total Students'],
         'Placed Students': item['Placed Students'],
+        'Not Eligible': item['Not Eligible'],
         'Pending': item['Pending'],
         'Download': (
             <button 
@@ -103,12 +112,19 @@ const CampusBranchOverview = () => {
                 Download
             </button>
         ),
-        "View Stats":(
-            <Link to="/admin/branch-stats">View Stats</Link>
+        "View Stats": (
+            <button 
+                onClick={() => handleClick(item.Branch)} 
+                className="text-blue-500 hover:underline"
+            >
+                View Stats
+            </button>
         )
     }));
+    
+    
 
-    const headers = ["Branch", "Total Students", "Placed Students", "Pending", "Download","Stats"];
+    const headers = ["Branch", "Total Students", "Placed Students","Not Eligible", "Pending", "Download","Stats"];
 
     if (loading) {
         return (

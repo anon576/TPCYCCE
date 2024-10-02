@@ -5,7 +5,7 @@ import xlsx from 'xlsx';
 
 class StudentHandler {
   static column = [
-    `Branch`, `Section`, `College ID`, `Name of Student`, `Gender`, `DoB`, `SSC YOP`, `SSC %age`, `HSC YoP`, `HSSC %age`, `SGPA1`, `SGPA2`, `SGPA3`, `SGPA4`, `SGPA5`, `SGPA6`, `SGPA7`, `Avg. SGPA`, `Mobile 1`, `Mobile 2`, `Mobile 3`, `Personal Email Address`, `College MailID`
+    `Branch`, `Section`, `College ID`, `Name of Student`, `Gender`, `DoB`, `SSC YOP`, `SSC %age`, `HSC YoP`, `HSSC %age`, `SGPA1`, `SGPA2`, `SGPA3`, `SGPA4`, `SGPA5`, `SGPA6`, `SGPA7`, `Avg. SGPA`, `Mobile 1`, `Mobile 2`, `Mobile 3`, `Personal Email Address`, `College MailID`, `Your career choice`, `DIPLOMA %`, `DIPLOMA YOP`
   ];
 
   static DB = new Database(
@@ -177,27 +177,27 @@ class StudentHandler {
     try {
       const { id } = req.params;
 
-    const del = pool.query( 
-      'delete from Attendances where StudentID = ?',[id]
-    )  
+      const del = pool.query(
+        'delete from Attendances where StudentID = ?', [id]
+      )
 
-    const d = await pool.query(`delete from Skills where StudentID = ?`,[id])
-    const condition = 'id=?';
-    const result = await StudentHandler.DB.delete(condition, [id]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        message: "Student not found"
+      const d = await pool.query(`delete from Skills where StudentID = ?`, [id])
+      const condition = 'id=?';
+      const result = await StudentHandler.DB.delete(condition, [id]);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          message: "Student not found"
+        });
+      }
+      res.status(200).json({
+        message: "Student deleted successfully"
       });
-    }
-    res.status(200).json({
-      message: "Student deleted successfully"
-    });
     } catch (error) {
       res.status(500).json({
         message: "Cannot delete student"
       });
     }
-    
+
   };
 
 
@@ -210,7 +210,7 @@ class StudentHandler {
       if (!studentId) {
         return res.status(400).json({ error: 'Student ID is required' });
       }
-  
+
       // Fetch unique campus and round details for the student
       const [rows] = await pool.execute(`
         SELECT 
@@ -228,11 +228,11 @@ class StudentHandler {
         ORDER BY 
           c.Date DESC, r.RoundDate ASC
       `, [studentId]);
-  
+
       // Organize the data into the required format
       const result = [];
       const campusMap = new Map();
-  
+
       rows.forEach(row => {
         if (!campusMap.has(row.CampusID)) {
           const campusDetails = {
@@ -247,7 +247,7 @@ class StudentHandler {
           campusMap.set(row.CampusID, campusDetails);
           result.push(campusDetails);
         }
-  
+
         const campus = campusMap.get(row.CampusID);
         campus.Rounds.push({
           RoundID: row.RoundID,
@@ -261,17 +261,17 @@ class StudentHandler {
         });
       });
       res.status(200).json({
-        "success":true,
-        "campus":result
-    }
-        );
+        "success": true,
+        "campus": result
+      }
+      );
     } catch (error) {
       console.error('Error fetching campus details:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-  
-  
+
+
 
 
 

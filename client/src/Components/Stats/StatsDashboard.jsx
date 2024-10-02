@@ -84,7 +84,7 @@ const StatsDashboard = () => {
 
 				const data = response.data;
 				setChartData(data);
-				console.log("Fetched Data:", data); // Debugging: Log the fetched data
+			
 			} catch (err) {
 				console.error("Error fetching stats:", err);
 				setError(err.message || 'An error occurred while fetching data');
@@ -111,15 +111,13 @@ const StatsDashboard = () => {
 
 	// Calculate values for the PieChart
 	const placed = chartData.totalPlacedStudents || 0;
-	const eligible = chartData.totalStudents
-		? chartData.totalStudents - placed
-		: 0;
-	const notEligible = 0; // Adjust based on your criteria or data availability
+	const notEligible = chartData.totalNotEligibleStudents; 
+	const notPlaced =  chartData.totalStudents- chartData.totalPlacedStudents-chartData.totalNotEligibleStudents; 
 
 	const pieData = [
-		{ name: "Placed", value: placed, color: "#0088FE" },
-		{ name: "Not Placed", value: eligible, color: "#00C49F" },
-		// { name: "Not Eligible", value: notEligible, color: "#FFBB28" },
+		{ name: "Placed", value: placed, color: "#00cc99" },
+		{ name: "Remaining", value: notPlaced, color: "red" },
+		{ name: "Not Eligible", value: notEligible, color: "#302C29" },
 
 	];
 
@@ -173,7 +171,7 @@ const StatsDashboard = () => {
 					<div className="space-y-5">
 						<DashboardCard title="Total Campuses" value={chartData.totalCampus} />
 						<DashboardCard title="Total Ongoing Campuses" value={chartData.totalOngoingCampus} />
-						<DashboardCard title="Total Completed Campuses" value={chartData.totalCampus-chartData.totalOngoingCampus} />
+						<DashboardCard title="Total Completed Campuses" value={chartData.totalCampus - chartData.totalOngoingCampus} />
 						<DashboardCard title="Total Placed Students" value={chartData.totalPlacedStudents} />
 						<Link to="/admin/campus-overview">
 							<button className="bg-green-600 p-4 my-4 rounded-lg shadow text-white">
@@ -258,13 +256,13 @@ const StatsDashboard = () => {
 
 				<TableSection
 					title="Jobs Published by Employers"
-					headers={["Employer Name", "Skill","Skill Level", "Job Count"]}
+					headers={["Employer Name", "Skill", "Skill Level", "Job Count"]}
 					data={
 						chartData.recentJobEmployerRequest && chartData.recentJobEmployerRequest.length > 0
 							? chartData.recentJobEmployerRequest.map(job => ({
 								employerID: job.employerName,
 								skill: job.skill,
-								skillLevel:job.skillLevel,
+								skillLevel: job.skillLevel,
 								status: job.jobCount,
 							}))
 							: [

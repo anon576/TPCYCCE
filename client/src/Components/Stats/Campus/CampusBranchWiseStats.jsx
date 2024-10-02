@@ -34,7 +34,7 @@ const CampusBranchWiseStats = () => {
 
     const downloadBranchWisePlacements = async (branchName) => {
         try {
-            console.log(branchName)
+            
             const response = await axios.get(`${BACKEND_URL}/stats/campus_branch_wise_download/${branchName}/${campusId}`, {
                 responseType: 'blob', // Important to specify the response type
             });

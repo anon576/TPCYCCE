@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-	if (req.path.startsWith("/api/tpcycce/stats")) {
+	if (req.path.startsWith("/api/tpcycce/auth")) {
 		// Skip JWT verification for /api/auth routes
 		return next();
 	}

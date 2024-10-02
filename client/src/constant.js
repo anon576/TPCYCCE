@@ -1,6 +1,6 @@
 export const BACKEND_URL = "http://localhost:5001/api/tpcycce";
 // export const BACKEND_URL = 'https://oceanzen.in/api/tpcycce'
-export const BRANCHS = ['ALL','Comp Tech','Info Tech','Electronics','ETC','Electrical','Mechanical','Civil','AIDS','AIML','IIOT','CSD' ]
+export const BRANCHS = ['ALL','Comp Tech','Info Tech','Electronics','ETC','Electrical','Mechanical','Civil','AI-DS','AIML','IIOT','CSD' ]
 
 export const skills = [
   'Accounting', 'Agile Development', 'Android Development', 'Angular',

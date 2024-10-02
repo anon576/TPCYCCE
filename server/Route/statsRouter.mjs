@@ -15,4 +15,6 @@ statsRouter.get("/branch_wise_download/:branchName",StatsHandler.branchWisePlace
 
 statsRouter.get("/campus_branch_wise_download/:branchName/:campusId",StatsHandler.campusBranchWiseDownload)
 
+statsRouter.post("/get_branch_stats",StatsHandler.branchStats)
+
 export default statsRouter;
