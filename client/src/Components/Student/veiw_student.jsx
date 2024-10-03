@@ -95,17 +95,8 @@ function ViewStudent() {
                       <th>Branch</th>
                       <th>Section</th>
                       <th>College ID</th>
-                      <th>Gender</th>
-                      <th>DoB</th>
-                      <th>SGPA1</th>
-                      <th>SGPA2</th>
-                      <th>SGPA3</th>
-                      <th>SGPA4</th>
-                      <th>SGPA5</th>
-                      <th>SGPA6</th>
-                      <th>SGPA7</th>
                       <th>Avg. SGPA</th>
-                      <th>Mobile 1</th>
+                      <th>Mobile</th>
                       <th>Personal Email Address</th>
                       <th>Action</th>
                     </tr>
@@ -117,17 +108,8 @@ function ViewStudent() {
                         <td>{student.Branch}</td>
                         <td>{student.Section}</td>
                         <td>{student['College ID']}</td>
-                        <td>{student.Gender}</td>
-                        <td>{student.DoB}</td>
-                        <td>{student.SGPA1}</td>
-                        <td>{student.SGPA2}</td>
-                        <td>{student.SGPA3}</td>
-                        <td>{student.SGPA4}</td>
-                        <td>{student.SGPA5}</td>
-                        <td>{student.SGPA6}</td>
-                        <td>{student.SGPA7}</td>
                         <td>{student['Avg. SGPA']}</td>
-                        <td>{student['Mobile 1']}</td>
+                        <td>{student['mobile']}</td>
                         <td>{student['Personal Email Address']}</td>
                         <td>
                           <button onClick={() => handleUpdateClick(student)}>Update</button>

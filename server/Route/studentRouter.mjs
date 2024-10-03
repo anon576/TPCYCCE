@@ -21,6 +21,6 @@ StudentRouter.delete("/delete/:id",StudentHandler.delete)
 StudentRouter.get("/get_campus/:id",StudentHandler.fetchCampus)
 
 
-
+StudentRouter.get("/get_stats/:id",StudentHandler.fetchStudentStat)
 
 export default StudentRouter

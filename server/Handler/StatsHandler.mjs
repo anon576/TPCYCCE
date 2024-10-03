@@ -308,6 +308,7 @@ class StatsHandler {
                     s.Branch
             `, [branch]);
     
+            console.log(studentStats)
             // Query to get placement data for completed campuses
             const [campusPlacementData] = await pool.query(`
                 SELECT 
@@ -324,7 +325,6 @@ class StatsHandler {
                     Placement p ON a.StudentID = p.StudentID AND p.CampusID = c.CampusID
                 WHERE 
                     c.status = 'Complated'
-                    AND a.AttendanceStatus = 'Present'
                     AND EXISTS (
                         SELECT 1
                         FROM Student s
@@ -340,6 +340,8 @@ class StatsHandler {
                 studentStats: studentStats[0], // Branch-wise stats
                 campusPlacementData: campusPlacementData // Campus-wise placement data
             };
+
+            console.log(campusPlacementData)
     
             res.status(200).json(result);
         } catch (error) {

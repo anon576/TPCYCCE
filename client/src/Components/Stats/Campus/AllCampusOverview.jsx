@@ -10,7 +10,13 @@ const AllCampusOverview = () => {
     // Function to fetch completed campus data from the server
     const fetchCompletedCampusData = async () => {
         try {
-            const response = await axios.get(BACKEND_URL + '/stats/complateCampus');
+            const token = localStorage.getItem("token")
+            const response = await axios.get(BACKEND_URL + '/stats/complateCampus',{
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+            });
             setPlacementData(response.data);
         } catch (error) {
             console.error("Error fetching completed campus data:", error);

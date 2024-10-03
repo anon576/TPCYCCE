@@ -5,7 +5,7 @@ import xlsx from 'xlsx';
 
 class StudentHandler {
   static column = [
-    `Branch`, `Section`, `College ID`, `Name of Student`, `Gender`, `DoB`, `SSC YOP`, `SSC %age`, `HSC YoP`, `HSSC %age`, `SGPA1`, `SGPA2`, `SGPA3`, `SGPA4`, `SGPA5`, `SGPA6`, `SGPA7`, `Avg. SGPA`, `Mobile 1`, `Mobile 2`, `Mobile 3`, `Personal Email Address`, `College MailID`, `Your career choice`, `DIPLOMA %`, `DIPLOMA YOP`
+    `Branch`, `Section`, `College ID`, `Name of Student`, `Gender`, `DoB`, `SSC YOP`, `SSC %age`, `HSC YoP`, `HSSC %age`, `SGPA1`, `SGPA2`, `SGPA3`, `SGPA4`, `SGPA5`, `SGPA6`, `SGPA7`, `Avg. SGPA`, `mobile`, `Personal Email Address`, `College MailID`, `Your career choice`, `DIPLOMA %`, `DIPLOMA YOP`
   ];
 
   static DB = new Database(
@@ -120,9 +120,7 @@ class StudentHandler {
         SGPA6 = ?,
         SGPA7 = ?,
         \`Avg. SGPA\` = ?,
-        \`Mobile 1\` = ?,
-        \`Mobile 2\` = ?,
-        \`Mobile 3\` = ?,
+        \`mobile\` = ?,
         \`Personal Email Address\` = ?,
         \`College MailID\` = ?,
         \`College ID\` = ?
@@ -148,9 +146,7 @@ class StudentHandler {
         studentData.sgpa6,
         studentData.sgpa7,
         studentData.avgSGPA,
-        studentData.mobile1,
-        studentData.mobile2,
-        studentData.mobile3,
+        studentData.mobile,
         studentData.personalEmail,
         studentData.collegeMailID,
         collegeID,
@@ -272,7 +268,47 @@ class StudentHandler {
   };
 
 
-
+  static fetchStudentStat = async (req, res) => {
+    const studentId = req.params.id;
+  console.log(studentId)
+    try {
+      // Fetch student skills
+      const skillsQuery = `
+        SELECT Skill, Level 
+        FROM Skills 
+        WHERE StudentID = ?
+      `;
+      const [skills] = await pool.execute(skillsQuery, [studentId]);
+  
+      // Fetch student certificates
+      const certificatesQuery = `
+        SELECT certificateName, certificateOrgnization 
+        FROM Certificate 
+        WHERE studentID = ?
+      `;
+      const [certificates] = await pool.execute(certificatesQuery, [studentId]);
+  
+      // Fetch student placement information
+      const placementQuery = `
+        SELECT Campus.CampusName, Campus.package, Campus.Date, Campus.Location, Placement.StudentID
+        FROM Placement
+        JOIN Campus ON Placement.CampusID = Campus.CampusID
+        WHERE Placement.StudentID = ?
+      `;
+      const [placement] = await pool.execute(placementQuery, [studentId]);
+  console.log(skills,certificates,placement)
+      // Send response with skills, certificates, and placement details
+      res.status(200).json({
+        skills,
+        certificates,
+        placement,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "An error occurred while fetching student data." });
+    }
+  };
+  
 
 
 }

@@ -16,7 +16,7 @@ const CampusBranchWiseStats = () => {
                 const token = localStorage.getItem("token"); // If your API requires authentication
                 const response = await axios.get(`${BACKEND_URL}/stats/branch_wise_placement/${campusId}`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`, // Adjust based on your auth mechanism
+                        'Authorization': `${token}`, // Adjust based on your auth mechanism
                         'Content-Type': 'application/json',
                     },
                 });

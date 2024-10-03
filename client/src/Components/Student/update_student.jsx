@@ -13,6 +13,10 @@ function UpdateStudent() {
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [skills, setSkills] = useState([]);
+    const [certificates, setCertificates] = useState([]);
+    const [placement, setPlacement] = useState([]);
+
 
     useEffect(() => {
         if (student) {
@@ -34,9 +38,7 @@ function UpdateStudent() {
             setValue('sgpa6', student.SGPA6);
             setValue('sgpa7', student.SGPA7);
             setValue('avgSGPA', student["Avg. SGPA"]);
-            setValue('mobile1', student["Mobile 1"]);
-            setValue('mobile2', student["Mobile 2"]);
-            setValue('mobile3', student["Mobile 3"]);
+            setValue('mobile', student["mobile"]);
             setValue('personalEmail', student["Personal Email Address"]);
             setValue('collegeMailID', student["College MailID"]);
             // New fields
@@ -45,6 +47,22 @@ function UpdateStudent() {
             setValue('placementCompany', student.PlacementCompany || 'GL');
             setValue('placementSalary', student.PlacementSalary || '500000');
             setValue('placementPosition', student.PlacementPosition || 'SDE');
+
+              // Fetch student stats: skills, certificates, placement
+              axios.get(`${BACKEND_URL}/student/get_stats/${student.id}`, {
+                headers: {
+                    'Authorization': `${token}`,
+                },
+            })
+            .then(res => {
+                setSkills(res.data.skills);
+                setCertificates(res.data.certificates);
+                setPlacement(res.data.placement);
+            })
+            .catch(err => {
+                console.error(err);
+                setErrorMessage("Failed to fetch student statistics.");
+            });
         }
     }, [student, setValue]);
 
@@ -71,17 +89,9 @@ function UpdateStudent() {
                 sgpa6: data.sgpa6,
                 sgpa7: data.sgpa7,
                 avgSGPA: data.avgSGPA,
-                mobile1: data.mobile1,
-                mobile2: data.mobile2,
-                mobile3: data.mobile3,
+                mobile: data.mobile,
                 personalEmail: data.personalEmail,
                 collegeMailID: data.collegeMailID,
-                // New fields
-                skills: data.skills,
-                certifications: data.certifications,
-                placementCompany: data.placementCompany,
-                placementSalary: data.placementSalary,
-                placementPosition: data.placementPosition,
             }, {
                 headers: {
                     'Authorization': token,
@@ -136,7 +146,7 @@ function UpdateStudent() {
                             </div>
                             <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 mt-6">
                                 {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-                                    <InputField key={num} label={`SGPA ${num}`} register={register} name={`sgpa${num}`} required type="number" step=".0001" />
+                                    <InputField key={num} label={`SGPA ${num}`} register={register} name={`sgpa${num}`}  type="number" step=".0001" />
                                 ))}
                                 <InputField label="Average SGPA" register={register} name="avgSGPA" required type="number" step=".0001" />
                             </div>
@@ -145,41 +155,56 @@ function UpdateStudent() {
                         {/* Contact Information */}
                         <Section title="Contact Information">
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                                <InputField label="Mobile 1" register={register} name="mobile1" required />
-                                <InputField label="Mobile 2" register={register} name="mobile2" />
-                                <InputField label="Mobile 3" register={register} name="mobile3" />
+                                <InputField label="Phone No" register={register} name="mobile" required />
                                 <InputField label="Personal Email" register={register} name="personalEmail" required type="email" />
                                 <InputField label="College Email" register={register} name="collegeMailID" required type="email" />
                             </div>
                         </Section>
 
-                        {/* Skills */}
-                        <Section title="Skills">
-                            <TextAreaField
-                                label="Skills (comma-separated)"
-                                register={register}
-                                name="skills"
-                                placeholder="e.g., JavaScript, React, Node.js, Python, SQL"
-                            />
+                       {/* Skills (Read-Only) */}
+                       <Section title="Skills">
+                            {skills.length > 0 ? (
+                                <ul className="list-disc list-inside">
+                                    {skills.map(skill => (
+                                        <li key={skill.SkillID}>{skill.Skill} (Level {skill.Level})</li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No skills available.</p>
+                            )}
                         </Section>
 
-                        {/* Certifications */}
+                        {/* Certifications (Read-Only) */}
                         <Section title="Certifications">
-                            <TextAreaField
-                                label="Certifications (one per line)"
-                                register={register}
-                                name="certifications"
-                                placeholder="e.g., AWS Certified Developer - Associate"
-                            />
+                            {certificates.length > 0 ? (
+                                <ul className="list-disc list-inside">
+                                    {certificates.map(cert => (
+                                        <li key={cert.certificateID}>
+                                            {cert.certificateName} - {cert.certificateOrgnization}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No certifications available.</p>
+                            )}
                         </Section>
 
-                        {/* Placement Details */}
+                        {/* Placement Details (Read-Only) */}
                         <Section title="Placement Details">
-                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                                <InputField label="Company" register={register} name="placementCompany" />
-                                <InputField label="Position" register={register} name="placementPosition" />
-                                <InputField label="Salary (per annum)" register={register} name="placementSalary" type="number" />
-                            </div>
+                            {placement.length > 0 ? (
+                                <div className="space-y-4">
+                                    {placement.map(place => (
+                                        <div key={place.placementID} className="p-4 border rounded-lg">
+                                            <p><strong>Campus:</strong> {place.CampusName}</p>
+                                            <p><strong>Package:</strong> {place.package}</p>
+                                            <p><strong>Date:</strong> {new Date(place.Date).toLocaleDateString()}</p>
+                                            <p><strong>Location:</strong> {place.Location}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No placement details available.</p>
+                            )}
                         </Section>
 
                         <button type="submit" className="w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">

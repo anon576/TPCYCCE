@@ -280,16 +280,14 @@ class CampusHandler {
                     // Insert into Placement table
                     const insertPlacementQuery = 'INSERT INTO Placement (CampusID, StudentID) VALUES ?';
                     await connection.query(insertPlacementQuery, [placementData]);
-    
-                    // Optionally, update Campus.eligibleStudents and placedStudents
-                    const eligibleStudents = collegeIds.length;
+
                     const placedStudents = students.length;
     
                     const updateCampusStatsQuery = `
                         UPDATE Campus
-                        SET eligibleStudents = ?, placedStudents = ?
+                        SET  placedStudents = ?
                         WHERE CampusID = ?`;
-                    await connection.query(updateCampusStatsQuery, [eligibleStudents, placedStudents, campusID]);
+                    await connection.query(updateCampusStatsQuery, [ placedStudents, campusID]);
                 }
     
                 // Commit the transaction
@@ -517,6 +515,63 @@ class CampusHandler {
         }
     }
 
+    static criteriaBasedCampus = async (req, res) => {
+        try {
+            const { campusName, message, pack, location, rounds, eligibilityType, selectedBranches, liveBacklogAllowed, liveBacklogCount, deadBacklogAllowed, deadBacklogCount, cgpa } = req.body;
+    
+            // 1. Check if the campus with the same name exists
+            const existingCampusQuery = 'SELECT * FROM Campus WHERE CampusName = ?';
+            const [existingCampuses] = await database.query(existingCampusQuery, [campusName]);
+            
+            if (existingCampuses.length > 0) {
+                return res.status(409).json({ message: 'Campus with the same name already exists' });
+            }
+    
+            const campusStatus = "Pending";
+            // 2. Insert new campus
+            const insertCampusQuery = 'INSERT INTO Campus (CampusName, Message, package, Location, Date, status, eligibleStudents) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            const campusID = await database.query(insertCampusQuery, [campusName, message, pack, location, rounds[0].roundDate, campusStatus, 0]);
+    
+            // 3. Fetch eligible students based on criteria
+            const branchCondition = selectedBranches.map(() => '?').join(',');
+            const liveBacklogCheck = liveBacklogAllowed === 'no' ? 'AND `Avg. SGPA` IS NOT NULL' : '';
+            const deadBacklogCheck = deadBacklogAllowed === 'no' ? 'AND `Avg. SGPA` IS NOT NULL' : '';
+            
+            const eligibleStudentsQuery = `
+                SELECT * FROM Student 
+                WHERE Branch IN (${branchCondition}) 
+                AND \`Avg. SGPA\` >= ?
+                ${liveBacklogCheck}
+                ${deadBacklogCheck}
+            `;
+    
+            const parameters = [...selectedBranches, cgpa];
+            const [students] = await database.query(eligibleStudentsQuery, parameters);
+    
+            // 4. Check if we have eligible students
+            if (students.length === 0) {
+                return res.status(404).json({ message: 'No eligible students found based on the criteria.' });
+            }
+    
+            // 5. Create the round and attendance for the first round
+            const roundQuery = 'INSERT INTO Round (CampusID, RoundName, RoundDate) VALUES (?, ?, ?)';
+            const roundID = await database.query(roundQuery, [campusID.insertId, rounds[0].roundName, rounds[0].roundDate]);
+    
+            for (const student of students) {
+                const studentID = student.id;
+    
+                // Create attendance record for each student in the first round
+                const attendanceQuery = 'INSERT INTO Attendances (StudentID, RoundID, AttendanceStatus, AttendanceDate) VALUES (?, ?, "Absent", ?)';
+                await database.query(attendanceQuery, [studentID, roundID.insertId, rounds[0].roundDate]);
+            }
+    
+            res.status(200).json({ message: 'Campus created successfully', eligibleStudents: students.length });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error creating campus', error });
+        }
+    };
+    
 
 
 }

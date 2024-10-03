@@ -38,7 +38,7 @@ console.log(branchName)
 
 				// Assuming your API response structure matches this
 				const data = response.data;
-
+				console.log(data.studentData)
 				// Transform data into the format expected by the PieChart
 				const formattedData = [
 					{ name: "Placed", value: data.studentStats.Placed, color: "#0088FE" },
@@ -49,7 +49,8 @@ console.log(branchName)
 				];
 
 				setStudentData(formattedData);
-				setPlacementData(data.campusPlacementData); // Update to match the new response structure
+				setPlacementData(data.campusPlacementData);
+				console.log(data.campusPlacementData)
 			} catch (error) {
 				setError(error.message);
 			} finally {
@@ -116,11 +117,12 @@ console.log(branchName)
 				</div>
 			</div>
 
-			<TableSection
+			{/* <TableSection
 				title="Company Wise Placement"
 				headers={["Campus", "Total Students", "Placed Students", "Not Eligible", "Pending", "Download", "View Stats"]}
 				data={placementData}
-			/>
+			/> */}
+
 		</div>
 	);
 };
