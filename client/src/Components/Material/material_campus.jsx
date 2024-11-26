@@ -96,7 +96,7 @@ function CampusMaterial() {
     };
 
     const handleVeiwInterviewQuestion = (campus) => {
-        navigate(`/admin/veiw_interview_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
+        navigate(`/admin/view_interview_question`, { state: { campusId: campus.campusID, campusName: campus.campusName } });
     };
 
     if (loading) {

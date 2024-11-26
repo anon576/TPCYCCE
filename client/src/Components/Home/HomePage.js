@@ -37,7 +37,7 @@ const HomePage = () => {
 				<div className="container mx-auto px-4">
 					<div className="max-w-3xl mx-auto text-center">
 						<h2 className="text-3xl font-bold mb-6">
-							About Our Training & Placement Cell
+							About Training & Placement Cell
 						</h2>
 						<p className="text-gray-600 mb-8">
 							The Training and Placement Cell at Yeshwantrao Chavan College of

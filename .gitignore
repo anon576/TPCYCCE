@@ -8,7 +8,6 @@
 /server/.env
 /server/package-lock.json
 /server/Utils/tpcycce.json
-schema.sql
 /.pnp
 .pnp.js
 

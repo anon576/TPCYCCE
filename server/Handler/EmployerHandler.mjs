@@ -166,12 +166,13 @@ class EmploerHandler{
   
       const { skill, skillLevel, cgpa, branch,status } = employerRequest[0];
      
-      if(status !=="Approved"){
-        console.log("here")
-        return res.status(403).json({
-          message:"Status is pending"
-        })
-      }
+      // if(status !=="Approved"){
+      //   console.log("students")
+      //   console.log("here")
+      //   return res.status(403).json({
+      //     message:"Status is pending"
+      //   })
+      // }
       // Step 2: Handle multiple branches (assume branch is a comma-separated string)
       const branchesArray = branch.split(',');  // Convert branches to array
       const branchPlaceholders = branchesArray.map(() => '?').join(',');  // Prepare SQL placeholders for IN clause
@@ -184,7 +185,7 @@ class EmploerHandler{
         SELECT 
           s.\`Name of Student\` as studentName,
           s.\`Personal Email Address\` as emailAddress,
-          s.\`Mobile 1\` as mobileNo,
+          s.\`mobile\` as mobileNo,
           s.\`Avg. SGPA\` as cgpa,
           s.Branch as branch,
           GROUP_CONCAT(sk.Skill SEPARATOR ', ') as skills
@@ -201,7 +202,7 @@ class EmploerHandler{
       // Step 3: Run query and pass branches and skills as parameters
       const [students] = await pool.query(query, [...branchesArray, cgpa, ...skillsArray, skillLevel, skillsArray.length]);
  
-  
+      console.log(students)
       if (students.length === 0) {
         return res.status(404).json({ message: 'No students found matching the criteria.' });
       }
@@ -270,6 +271,53 @@ class EmploerHandler{
         res.status(500).json({ message: 'Error approving employer', error: error.message });
     }
 };
+
+static fetchJobApply = async (req, res) => {
+  const { employerRequestID } = req.params; // Assuming employerRequestID is passed as a URL parameter
+  console.log(employerRequestID);
+  
+  try {
+      // Query to fetch students who applied for the job
+      const query = `
+          SELECT 
+              s.id AS studentID,
+              s.\`Name of Student\` AS studentName,
+              s.Branch AS studentBranch,
+              s.Section AS studentSection,
+              s.mobile AS studentMobile,
+              s.\`Personal Email Address\` AS studentEmail,
+              j.jobId
+          FROM 
+              Jobs j
+          JOIN 
+              Student s ON j.StudentID = s.id
+          WHERE 
+              j.employerRequestID = ?;
+      `;
+
+      const [results] = await pool.execute(query, [employerRequestID]);
+      console.log(results);
+
+      if (results.length > 0) {
+          return res.status(200).json({
+              success: true,
+              data: results,
+          });
+      } else {
+          return res.status(404).json({
+              success: false,
+              message: "No students found for this job application.",
+          });
+      }
+  } catch (error) {
+      console.error("Error fetching job applications:", error);
+      return res.status(500).json({
+          success: false,
+          message: "An error occurred while fetching job applications.",
+      });
+  }
+};
+
 
 }
 

@@ -68,6 +68,8 @@ import AllCampusOverview from "./Components/Stats/Campus/AllCampusOverview";
 import CampusBranchWiseStats from "./Components/Stats/Campus/CampusBranchWiseStats";
 import EmployerJobRequests from "./Components/Stats/Jobs/EmployeJobRequest";
 import BranchStats from "./Components/Stats/BranchStats/BranchStats";
+import ResumeViewer from "./Components/Student Dashboard/Components/Resume/ResumeView";
+import JobApplications from "./Components/Employer/Comp/Shortlist Student/JobShortList";
 
 function App() {
 	return (
@@ -79,7 +81,10 @@ function App() {
 					{/* Admin Routes */}
 					<Route path="/admin/*" element={<AdminPrivateRoute />}>
 
+
 					<Route path="" element={<StatsDashboard></StatsDashboard>} />
+
+					<Route path="resume" element={<ResumeViewer></ResumeViewer>} />
 
 					<Route path="campus-overview" element={<CampusOverview></CampusOverview>} />
 
@@ -354,6 +359,9 @@ function App() {
 								</>
 							}
 						/>
+						<Route path="jobs/applications/:employerRequestID" element={<JobApplications/>}/>
+						
+						<Route path="resume" element={<ResumeViewer></ResumeViewer>} />
 					</Route>
 					
 				</Routes>

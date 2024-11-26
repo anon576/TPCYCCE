@@ -296,12 +296,15 @@ class StudentHandler {
         WHERE Placement.StudentID = ?
       `;
       const [placement] = await pool.execute(placementQuery, [studentId]);
-  console.log(skills,certificates,placement)
+
+      const [student] = await pool.execute(`select * from Student where id = ?`,[studentId])
+  console.log(student)
       // Send response with skills, certificates, and placement details
       res.status(200).json({
         skills,
         certificates,
         placement,
+        student:student[0]
       });
     } catch (error) {
       console.error(error);

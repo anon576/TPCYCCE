@@ -28,7 +28,7 @@ const EmployerDashboard = () => {
 						}`}
 						onClick={() => setActiveTab("shortlist")}
 					>
-						Shortlist Students
+						Create Job
 					</button>
 					
 					<button

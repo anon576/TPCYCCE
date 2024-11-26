@@ -115,9 +115,9 @@ const StatsDashboard = () => {
 	const notPlaced =  chartData.totalStudents- chartData.totalPlacedStudents-chartData.totalNotEligibleStudents; 
 
 	const pieData = [
-		{ name: "Placed", value: placed, color: "#00cc99" },
-		{ name: "Remaining", value: notPlaced, color: "red" },
-		{ name: "Not Eligible", value: notEligible, color: "#302C29" },
+		{ name: "Placed", value: placed, color: "#70e000" },
+		{ name: "Remaining", value: notPlaced, color: "#ffc300" },
+		{ name: "Not Eligible", value: notEligible, color: "#c1121f" },
 
 	];
 

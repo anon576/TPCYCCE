@@ -19,7 +19,7 @@ const Navbar = () => {
 		<nav className="p-4 fixed top-0 w-full z-30 backdrop-filter backdrop-blur-xl">
 			<div className="flex justify-between items-center">
 				<Link to="/" className="text-white text-2xl font-bold">
-					Yashwant
+					Yeshwant
 				</Link>
 				<div className="hidden md:flex space-x-4 items-center">
 					<button

@@ -3,6 +3,8 @@ import Campus from "./Campus";
 import Skills from "./PYQ/Skills";
 import Academics from "./Profile/Academics";
 import Certification from "./Profile/Certification";
+import ResumeUpload from "./Resume/Resume";
+import Jobs from './Jobs/Jobs'
 
 
 const DashboardHome = () => {
@@ -18,6 +20,10 @@ const DashboardHome = () => {
 				return <Academics />;
 			case "Certificate":
 				return <Certification/>
+			case "Jobs":
+				return <Jobs/>;
+			case "Resume":
+				return <ResumeUpload/>;
 			default:
 				return null;
 		}
@@ -50,6 +56,22 @@ const DashboardHome = () => {
 					onClick={() => setActiveComponent("Certificate")}
 				>
 					Certificates
+				</button>
+				<button
+					className={`p-4 border ${
+						activeComponent === "Jobs" ? "bg-blue-500" : "bg-gray-400"
+					} text-white`}
+					onClick={() => setActiveComponent("Jobs")}
+				>
+					Jobs
+				</button>
+				<button
+					className={`p-4 border ${
+						activeComponent === "Resume" ? "bg-blue-500" : "bg-gray-400"
+					} text-white`}
+					onClick={() => setActiveComponent("Resume")}
+				>
+					Resume
 				</button>
 				<button
 					className={`p-4 border ${

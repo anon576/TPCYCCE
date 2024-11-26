@@ -176,9 +176,18 @@ function Navbar() {
                     </li>
                   </ul>
                 </li>
+                <li>
+                  <a href="#">EMPLOYER</a>
+                  <i className="bx bxs-chevron-down js-arrow arrow" />
+                  <ul className="js-sub-menu sub-menu">
+                    <li>
+                      <Link to="/admin/employers">VIEW EMPLOYERS</Link>
+                    </li>
+                  </ul>
+                </li>
               </ul>
             </div>
-            <button onClick={employerRequest} className="signin">Notifcation</button>
+            {/* <button onClick={employerRequest} className="signin">Notifcation</button> */}
             <button onClick={logout} className="signin">SIGN OUT</button>
           </div>
         </nav>

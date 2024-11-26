@@ -298,6 +298,7 @@ class StatsHandler {
                 COUNT(DISTINCT CASE WHEN s.\`Avg. SGPA\` IS NOT NULL THEN s.id END) AS Eligible,
                 COUNT(DISTINCT CASE WHEN s.\`Avg. SGPA\` IS NULL THEN s.id END) AS NotEligible,
                 COUNT(DISTINCT p.StudentID) AS Placed
+                
                 FROM 
                     Student s
                 LEFT JOIN 
@@ -307,8 +308,10 @@ class StatsHandler {
                 GROUP BY 
                     s.Branch
             `, [branch]);
+
+            const [totalStudent] = await pool.query("select count(*)as total from Student where Branch = ?",[branch])
+           
     
-            console.log(studentStats)
             // Query to get placement data for completed campuses
             const [campusPlacementData] = await pool.query(`
                 SELECT 
@@ -334,14 +337,40 @@ class StatsHandler {
                 GROUP BY 
                     c.CampusID
             `, [branch]);
-    
+
+            const query = `
+            SELECT 
+              s.\`Name of Student\` AS studentName,
+              CASE 
+                WHEN COUNT(p.placementID) > 0 THEN 'Placed' 
+                ELSE 'Not Placed' 
+              END AS placementStatus,
+              COUNT(p.placementID) AS noOfOffers,
+              s.\`College ID\` AS collegeId,
+              s.id AS viewProfile
+            FROM 
+              Student s
+            LEFT JOIN 
+              Placement p ON s.id = p.StudentID
+            LEFT JOIN 
+              Campus c ON p.CampusID = c.CampusID
+            WHERE 
+              s.Branch = ?
+            GROUP BY 
+              s.id, s.\`Name of Student\`, s.\`College ID\`
+          `;
+          
+      
+          const [studentData] = await pool.execute(query, [branch]);
+          console.log(studentData[0])
             // Combining both results into a final response
             const result = {
                 studentStats: studentStats[0], // Branch-wise stats
-                campusPlacementData: campusPlacementData // Campus-wise placement data
+                campusPlacementData: campusPlacementData,
+                total :totalStudent[0].total,
+                studentData:studentData
             };
-
-            console.log(campusPlacementData)
+          
     
             res.status(200).json(result);
         } catch (error) {
@@ -350,6 +379,49 @@ class StatsHandler {
         }
     };
     
+
+    static studentStats = async (req, res) => {
+        const { branch } = req.body;
+      
+        try {
+          // Query to fetch student details based on the branch name
+          const query = `
+            SELECT 
+              s.\`Name of Student\` AS studentName,
+              CASE 
+                WHEN COUNT(p.placementID) > 0 THEN 'Placed' 
+                ELSE 'Not Placed' 
+              END AS placementStatus,
+              COUNT(p.placementID) AS noOfOffers,
+              s.\`College ID\` AS collge,
+              s.id AS viewProfile
+            FROM 
+              Student s
+            LEFT JOIN 
+              Placement p ON s.id = p.StudentID
+            JOIN 
+              Campus c ON p.CampusID = c.CampusID
+            WHERE 
+              s.Branch = ?
+            GROUP BY 
+              s.id, s.\`Name of Student\`, s.\`College ID\`
+          `;
+      
+          const [studentData] = await db.execute(query, [branch]);
+            console.log(studentData[0])
+          res.status(200).json({
+            success: true,
+            data: studentData,
+          });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({
+            success: false,
+            message: 'Error fetching student placement stats',
+          });
+        }
+      };
+      
 
 
 

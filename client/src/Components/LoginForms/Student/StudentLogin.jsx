@@ -44,7 +44,7 @@ const StudentLogin = () => {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem("role","Student");
                     localStorage.setItem('user', JSON.stringify(response.data.user));
-                    navigate('/'); // Redirect to student dashboard
+                    navigate('/student-dashboard'); // Redirect to student dashboard
                 }
             } else {
                 alert(response.data.message);

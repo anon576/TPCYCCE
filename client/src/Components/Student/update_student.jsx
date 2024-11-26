@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../constant';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Loader from '../../loader/loader';
 
 function UpdateStudent() {
     const token = localStorage.getItem("token");
     const { state: { student } } = useLocation();
+    const { state: { id } } = useLocation();
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     const [skills, setSkills] = useState([]);
     const [certificates, setCertificates] = useState([]);
     const [placement, setPlacement] = useState([]);
@@ -20,6 +20,7 @@ function UpdateStudent() {
 
     useEffect(() => {
         if (student) {
+            console.log(student)
             setValue('name', student["Name of Student"]);
             setValue('collegeID', student["College ID"]);
             setValue('branch', student.Branch);
@@ -48,21 +49,63 @@ function UpdateStudent() {
             setValue('placementSalary', student.PlacementSalary || '500000');
             setValue('placementPosition', student.PlacementPosition || 'SDE');
 
-              // Fetch student stats: skills, certificates, placement
-              axios.get(`${BACKEND_URL}/student/get_stats/${student.id}`, {
+            // Fetch student stats: skills, certificates, placement
+            axios.get(`${BACKEND_URL}/student/get_stats/${id}`, {
                 headers: {
                     'Authorization': `${token}`,
                 },
             })
-            .then(res => {
-                setSkills(res.data.skills);
-                setCertificates(res.data.certificates);
-                setPlacement(res.data.placement);
+                .then(res => {
+                    setSkills(res.data.skills);
+                    setCertificates(res.data.certificates);
+                    setPlacement(res.data.placement);
+                })
+                .catch(err => {
+                    console.error(err);
+                    setErrorMessage("Failed to fetch student statistics.");
+                });
+        } else {
+            axios.get(`${BACKEND_URL}/student/get_stats/${id}`, {
+                headers: {
+                    'Authorization': `${token}`,
+                },
             })
-            .catch(err => {
-                console.error(err);
-                setErrorMessage("Failed to fetch student statistics.");
-            });
+                .then(res => {
+                    setSkills(res.data.skills);
+                    setCertificates(res.data.certificates);
+                    setPlacement(res.data.placement);
+                    const studentData = res.data.student;
+                    setValue('name', studentData["Name of Student"]);
+                    setValue('collegeID', studentData["College ID"]);
+                    setValue('branch', studentData.Branch);
+                    setValue('section', studentData.Section);
+                    setValue('gender', studentData.Gender);
+                    setValue('dob', studentData.DoB);
+                    setValue('sscYOP', studentData["SSC YOP"]);
+                    setValue('sscPercentage', studentData["SSC %age"]);
+                    setValue('hscYOP', studentData["HSC YoP"]);
+                    setValue('hscPercentage', studentData["HSSC %age"]);
+                    setValue('sgpa1', studentData.SGPA1);
+                    setValue('sgpa2', studentData.SGPA2);
+                    setValue('sgpa3', studentData.SGPA3);
+                    setValue('sgpa4', studentData.SGPA4);
+                    setValue('sgpa5', studentData.SGPA5);
+                    setValue('sgpa6', studentData.SGPA6);
+                    setValue('sgpa7', studentData.SGPA7);
+                    setValue('avgSGPA', studentData["Avg. SGPA"]);
+                    setValue('mobile', studentData["mobile"]);
+                    setValue('personalEmail', studentData["Personal Email Address"]);
+                    setValue('collegeMailID', studentData["College MailID"]);
+                    setValue('skills', studentData.Skills || 'node, react');
+                    setValue('certifications', studentData.Certifications || '');
+                    setValue('placementCompany', studentData.PlacementCompany || 'GL');
+                    setValue('placementSalary', studentData.PlacementSalary || '500000');
+                    setValue('placementPosition', studentData.PlacementPosition || 'SDE');
+                })
+                .catch(err => {
+                    console.error(err);
+                    setErrorMessage("Failed to fetch student statistics.");
+                });
         }
     }, [student, setValue]);
 
@@ -122,8 +165,8 @@ function UpdateStudent() {
             <div className="max-w-6xl mx-auto">
                 <div className="bg-white shadow-2xl rounded-3xl overflow-hidden">
                     <form className="p-8 space-y-8" onSubmit={handleSubmit(onSubmit)}>
-                        <h1 className="text-4xl font-bold text-center text-indigo-600 mb-10">Update Student</h1>
-                        
+                        <h1 className="text-4xl font-bold text-center text-indigo-600 mb-10"> Student Profile</h1>
+
                         {/* Personal Information */}
                         <Section title="Personal Information">
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -146,7 +189,7 @@ function UpdateStudent() {
                             </div>
                             <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 mt-6">
                                 {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-                                    <InputField key={num} label={`SGPA ${num}`} register={register} name={`sgpa${num}`}  type="number" step=".0001" />
+                                    <InputField key={num} label={`SGPA ${num}`} register={register} name={`sgpa${num}`} type="number" step=".0001" />
                                 ))}
                                 <InputField label="Average SGPA" register={register} name="avgSGPA" required type="number" step=".0001" />
                             </div>
@@ -161,8 +204,8 @@ function UpdateStudent() {
                             </div>
                         </Section>
 
-                       {/* Skills (Read-Only) */}
-                       <Section title="Skills">
+                        {/* Skills (Read-Only) */}
+                        <Section title="Skills">
                             {skills.length > 0 ? (
                                 <ul className="list-disc list-inside">
                                     {skills.map(skill => (

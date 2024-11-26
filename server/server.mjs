@@ -1,7 +1,7 @@
 import express from "express";
 import AuthRouter from "./Route/authRouter.mjs";
-import cors from "cors"; // Import the cors module
-import dotenv from "dotenv"; // To load environment variables
+import cors from "cors"; 
+import dotenv from "dotenv"; 
 import CoOrdinatorRouter from "./Route/coOrdinatorRouter.mjs";
 import StudentRouter from "./Route/studentRouter.mjs";
 import CampusRouter from "./Route/campusRouter.mjs";
@@ -14,6 +14,8 @@ import notificationRoute from "./Route/notificationRouter.mjs";
 import EmployerRouter from "./Route/employerRouter.mjs";
 import CertifcateRoute from "./Route/certificateRouter.mjs";
 import statsRouter from "./Route/statsRouter.mjs";
+import ResumeRouter from "./Route/ResumeRouter.mjs";
+import JobRouter from "./Route/JobRouter.mjs";
 
 dotenv.config();
 
@@ -86,6 +88,9 @@ app.use("/api/tpcycce/employer", EmployerRouter);
 app.use("/api/tpcycce/certificate", CertifcateRoute);
 
 app.use("/api/tpcycce/stats", statsRouter);
+
+app.use("/api/tpcycce/resume",ResumeRouter)
+app.use("/api/tpcycce/job",JobRouter)
 
 app.listen(5001, "0.0.0.0");
 
